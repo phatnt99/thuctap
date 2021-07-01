@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	th:include="user-layout/baselayout :: page(title='Demo Home')">
+<head th:fragment="thishead">
+<style>
+p {
+	margin-bottom: 20px;
+	line-height: 1.8em;
+	margin-top: 0;
+}
+</style>
+</head>
+<body>
+
+	<div style="margin-left: -12px" th:fragment="breadcrumb">
+		<nav aria-label="breadcrumb" class="mt-4">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item" th:each="entry, state : ${breadcrumb}">
+					<a th:href="@{{link}(link=${entry.link})}" th:text="${entry.label}"
+					th:if="${state.count} != ${breadcrumb.size()}"></a> <span
+					th:if="${state.count} == ${breadcrumb.size()}"
+					th:text="${entry.label}"></span>
+				</li>
+			</ol>
+		</nav>
+	</div>
+	
+	<main class="col-12 col-lg-8 pt-3" th:fragment="maincontent"
+		style="padding: 0; margin: 0">
+		
+ 
+			<div class="row">
+				<div class="col-12 mt-4 mb-4">
+					<div class="card" style="border-radius: 0">
+						<div class="card-body">
+							<!--Title of category-->
+							<h3 th:text="${category.name}"></h3>
+							<!--Title of category-->
+
+							<!--Excerpt of category-->
+							<div class="mt-4 mb-4"
+								style="font-size: 17px; line-height: 1.6em"
+								th:text="${category.description}"></div>
+							<!--Excerpt of category-->
+							<div style="border-radius: 0; margin-top: 2rem"
+								th:each="entry : ${meta}">
+								<!-- Child Post  -->
+								<h5 th:text="${entry.label}"></h5>
+								<div style="overflow: hidden; background-color: #f5f5f5">
+									<div style="float: left; width: 50%"
+										th:each="child : ${entry.entries}">
+										<span style="padding-left: 40px;"> <img
+											style="width: 30px; height: 30px; border-radius: 50%; margin-right: 0.2rem;"
+											th:src="@{{link}(link=${child.img})}" /> <a
+											th:href="@{{link}(link=${child.link})}"
+											th:text="${child.label}"
+											style="text-decoration: none; color: #333; line-height: 55px;"></a>
+										</span>
+									</div>
+								</div>
+								<!-- Child Post  -->
+							</div>
+						</div>
+					</div>
+				</div>
+				 
+		</div>
+		
+	</main>
+
+	<th:block th:fragment="thisscript">
+		<!-- Begin Home JS -->
+		<script type="text/javascript"
+			th:src="@{/resources/public/js/home.js}"></script>
+		<!-- Begin Home JS -->
+	</th:block>
+</body>
+</html>

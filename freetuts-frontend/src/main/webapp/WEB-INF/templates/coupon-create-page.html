@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  th:include="admin-layout/baselayout :: page(title='Demo Home')"
+>
+  <body>
+    <main th:fragment="maincontent">
+      <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+          <div class="container-fluid">
+            <div class="row mb-2">
+              <div class="col-sm-6">
+                <h1>Coupon</h1>
+              </div>
+              <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                  <li class="breadcrumb-item"><a href="#">Home</a></li>
+                  <li class="breadcrumb-item"><a href="#">Layout</a></li>
+                  <li class="breadcrumb-item active">Collapsed Sidebar</li>
+                </ol>
+              </div>
+            </div>
+          </div>
+          <!-- /.container-fluid -->
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-12">
+                <!-- Default box -->
+                <div class="card card-primary">
+                  <div class="card-header">
+                    <h3 class="card-title">Quick Example</h3>
+                  </div>
+                  <!-- /.card-header -->
+                  <!-- form start -->
+                  <form
+                    method="POST"
+                    th:action="@{/admin/coupons/create}"
+                    th:object="${coupon}"
+                  >
+                    <div class="card-body">
+                        <div class="form-group">
+							<label for="code">Code</label>
+							<input
+							  th:field="*{code}"
+							  type="text"
+							  class="form-control"
+							  id="code"
+							  placeholder="Enter Code"
+							/>
+						  </div>
+						  <div class="form-group">
+							<label for="value">Value</label>
+							<input
+							  th:field="*{value}"
+							  type="text"
+							  class="form-control"
+							  id="value"
+							  placeholder="Enter Value"
+							/>
+						  </div>
+						  <div class="form-group">
+							<label for="description">Description</label>
+							<textarea
+							  th:field="*{description}"
+							  type="text"
+							  class="form-control"
+							  placeholder="Enter Description"
+							></textarea>
+						  </div>
+	
+						  <div class="form-group">
+							<label for="url">Url</label>
+							<textarea
+							  th:field="*{url}"
+							  type="text"
+							  class="form-control"
+							  placeholder="Enter Url"
+							></textarea>
+						  </div>
+                    </div>
+                    <!-- /.card-body -->
+
+                    <div class="card-footer">
+                      <button type="submit" class="btn btn-primary">
+                        Save
+                      </button>
+                    </div>
+                  </form>
+                </div>
+                <!-- /.card -->
+              </div>
+            </div>
+          </div>
+        </section>
+        <!-- /.content -->
+      </div>
+    </main>
+
+    <th:block th:fragment="thisscript">
+      <script type="text/javascript"></script>
+    </th:block>
+
+    <!-- script -->
+  </body>
+</html>

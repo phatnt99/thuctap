@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	th:include="user-layout/baselayout :: page(title=${post.title})">
+<head th:fragment="thishead">
+<style>
+p {
+	margin-bottom: 20px;
+	line-height: 1.8em;
+	margin-top: 0;
+}
+
+.cate-wrapper {
+	border: 1px solid green;
+	background: white;
+	margin-bottom: 1rem;
+	font-size: 17px;
+	color: black;
+}
+
+.cate-wrapper a:hover {
+	color: #f09217;
+}
+
+.cate-wrapper a {
+	text-decoration: none;
+	color: black;
+}
+main img {
+	width: 100%
+}
+</style>
+</head>
+<body>
+	<main class="row" th:fragment="maincontent"
+		style="padding: 0; margin: 0">
+		<div class="col-1"></div>
+		<div class="col-10">
+			<nav aria-label="breadcrumb" class="mt-4">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
+					<li class="breadcrumb-item" th:each="entry, state : ${breadcrumb}">
+						<a th:href="@{/category/{link}(link=${entry.link})}"
+						th:text="${entry.label}"
+						th:if="${state.count} != ${breadcrumb.size()}"></a> <span
+						th:if="${state.count} == ${breadcrumb.size()}"
+						th:text="${entry.label}"></span>
+					</li>
+				</ol>
+			</nav>
+			<div class="row">
+				<div class="col-9 mt-4 mb-4">
+					<div>
+						<select onchange="location = this.value;"
+							style="border-radius: 0; background-color: #912f2f; color: white; margin-bottom: 1rem; padding: 10px; width: 100%; font-size: 17px;">
+							<option style="background-color: white; color: black">+
+								Danh sách bài viết</option>
+							<option th:each="chapter : ${series}"
+								th:style="${chapter.slug == null ? 'background:#ddd; font-weight: bold; color: black': chapter.slug == post.slug ? 'background-color: white; color: blue' : 'background-color: white; color: black'}"
+								th:text="${chapter.slug == post.slug ? '+' + chapter.title : chapter.title}"
+								th:value="@{/{slug}.html(slug=${chapter.slug})}"
+								></option>
+						</select>
+					</div>
+					<div class="card" style="border-radius: 0">
+						<div class="card-body">
+							<!--Title of post-->
+							<h3 th:text="${post.title}"></h3>
+							<!--Title of post-->
+
+							<!--Author of post-->
+							<div class="mt-3 mb-3">
+								<span
+									style="margin-right: 10px; font-size: 12px; color: #c6c6c6; line-height: 1.4;">Đăng
+									bởi: Administrator</span> <span
+									style="margin-right: 10px; font-size: 12px; color: #c6c6c6; line-height: 1.4;">-
+									Vào ngày: <span th:text="${post.createdAt}"></span>
+								</span> <span
+									style="margin-right: 10px; font-size: 12px; color: #c6c6c6; line-height: 1.4;">-
+									View: 71</span>
+							</div>
+							<!--Author of post-->
+
+							<!--If coupon expired then show-->
+							<div class="alert alert-danger mt-3 mb-3" role="alert"
+								th:if="${post.postType} == 'COUPON'">CHƯƠNG TRÌNH ĐÃ KẾT
+								THÚC</div>
+							<!--If coupon expired then show-->
+
+							<!--Author of post-->
+
+							<!--Content of post-->
+							<div class="mt-4 mb-4"
+								style="font-size: 17px; line-height: 1.6em"
+								th:text="${post.excerpt}"></div>
+							<!--Content of post-->
+
+							<!--Content of post-->
+							<div class="mt-4 mb-4"
+								style="font-size: 17px; line-height: 1.6em"
+								th:utext="${post.content}"></div>
+							<!--Content of post-->
+						</div>
+					</div>
+				</div>
+				<div class="col-3 mt-4 mb-4">
+					<div class="cate-wrapper">
+						<div
+							style="background: green; padding: 10px 15px; border-bottom: 1px solid #eaeaea;">
+							<h3
+								style="font-size: 14px; color: white; font-weight: 700; margin-bottom: 0;">
+								DANH SÁCH BÀI HỌC</h3>
+						</div>
+						<ul style="list-style: none; padding: 2px !important">
+							<li th:each="chapter: ${series}"
+								th:style="${chapter.slug == null} ? 
+								'border-bottom: 1px solid #eaeaea; background: #d9ddff; padding: 4px 10px; font-weight: bold; font-size: 14px;' :
+								'padding: 4px 10px; border-bottom: 1px solid #eaeaea;'">
+								<span th:if="${chapter.slug == null}" th:text="${#strings.toUpperCase(chapter.title)}"></span>
+								<a th:if="!${chapter.slug == null}" th:href="@{/{slug}.html(slug=${chapter.slug})}"
+								th:text="${chapter.title}" th:style="${chapter.slug == post.slug} ? 'color: #f09217!important;' : ''"></a>
+							</li>
+							<li
+								style="border-bottom: 1px solid #eaeaea; background: #d9ddff; padding: 4px 10px; font-weight: bold; font-size: 14px;">DANH
+								SÁCH THEO CHỦ ĐỀ</li>
+							<li style="padding: 4px 10px; border-bottom: 1px solid #eaeaea;"
+								th:each="related : ${relatedSeries}"><i
+								style="color: green; font-size: 15px; margin-right: 5px"
+								class="far fa-hand-point-right"></i><a
+								th:href="${related.slug}" th:text="${related.name}"></a></li>
+						</ul>
+					</div>
+					<table class="table table-bordered">
+						<thead
+							style="background: #315062; color: white; text-align: center">
+							<tr>
+								<th scope="col" colspan="3">Mã giảm giá</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>Unica</td>
+								<td>50%</td>
+								<td>
+									<button type="button" class="btn"
+										style="background-color: #00a5e3; color: white; border-radius: 20px; box-shadow: 3px 3px 5px 0px #666;">
+										Lấy mã</button>
+								</td>
+							</tr>
+							<tr>
+								<td>Unica</td>
+								<td>50%</td>
+								<td>
+									<button type="button" class="btn"
+										style="background-color: #00a5e3; color: white; border-radius: 20px; box-shadow: 3px 3px 5px 0px #666;">
+										Lấy mã</button>
+								</td>
+							</tr>
+							<tr>
+								<td>Unica</td>
+								<td>50%</td>
+								<td>
+									<button type="button" class="btn"
+										style="background-color: #00a5e3; color: white; border-radius: 20px; box-shadow: 3px 3px 5px 0px #666;">
+										Lấy mã</button>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		<div class="col-1"></div>
+	</main>
+
+	<th:block th:fragment="thisscript">
+		<!-- Begin Home JS -->
+		<script type="text/javascript"
+			th:src="@{/resources/public/js/home.js}"></script>
+		<!-- Begin Home JS -->
+	</th:block>
+</body>
+</html>

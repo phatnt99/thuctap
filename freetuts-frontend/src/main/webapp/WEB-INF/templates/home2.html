@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	th:include="layout/baselayout :: page(title='Sua Tieu De Lai')">
+<head th:fragment="thishead">
+
+<!-- Home CSS -->
+<link th:href="@{/resources/public/css/filecsscuaminh.css}" rel="stylesheet" />
+
+</head>
+<body>
+
+	<main class="col-12 col-lg-8" th:fragment="maincontent">
+		<h1>File Cua Minh</h1>
+
+		<h1></h1>
+		Mấy cái kia t chia layout hết rồi cứ tạo file như v
+		rồi viết mnội dung tronng cái main này thôi.
+		<p th:text="'Time: ' + ${date}" />
+ 
+ 
+
+	</main>
+
+
+	<th:block th:fragment="thisscript">
+		<!-- Begin Home JS -->
+		<script type="text/javascript"
+			th:src="@{/resources/public/js/filejscuaminh.js}"></script>
+		<!-- Begin Home JS -->
+	</th:block>
+
+</body>
+</html>

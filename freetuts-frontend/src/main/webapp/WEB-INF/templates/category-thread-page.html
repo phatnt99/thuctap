@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	th:include="user-layout/baselayout :: page(title='Demo Home')">
+<head th:fragment="thishead">
+<style>
+p {
+	margin-bottom: 20px;
+	line-height: 1.8em;
+	margin-top: 0;
+}
+
+.list-post a {
+	text-decoration: none;
+	color: #f09217;
+	font-size: 17px;
+}
+
+.list-post a:hover {
+	color: black;
+}
+</style>
+</head>
+<body>
+
+	<div style="margin-left: -12px" th:fragment="breadcrumb">
+		<nav aria-label="breadcrumb" class="mt-4">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item" th:each="entry, state : ${breadcrumb}">
+					<a th:href="@{{link}(link=${entry.link})}" th:text="${entry.label}"
+					th:if="${state.count} != ${breadcrumb.size()}"></a> <span
+					th:if="${state.count} == ${breadcrumb.size()}"
+					th:text="${entry.label}"></span>
+				</li>
+			</ol>
+		</nav>
+	</div>
+
+
+	<main class="col-12 col-lg-8 pt-3" th:fragment="maincontent"
+		style="padding: 0; margin: 0">
+ 
+			<div class="row">
+				<div class="col-12 mt-4 mb-4">
+					<div class="card" style="border-radius: 0">
+						<div class="card-body">
+							<!--Title of category-->
+							<h3 th:text="${category.name}"></h3>
+							<!--Title of category-->
+
+							<!--Excerpt of category-->
+							<div class="mt-4 mb-4"
+								style="font-size: 17px; line-height: 1.6em"
+								th:text="${category.description}"></div>
+							<!--Excerpt of category-->
+							<!-- Agenda -->
+							<div style="border-radius: 0; margin-top: 2rem"
+								th:each="entry : ${meta}">
+								<!-- Child Post  -->
+								<div style="overflow: hidden; background-color: #f5f5f5">
+									<div style="float: left; width: 50%"
+										th:each="child : ${entry.entries}">
+										<span style="padding-left: 40px;"> <img
+											style="width: 30px; height: 30px; border-radius: 50%; margin-right: 0.2rem;"
+											th:src="@{{link}(link=${child.img})}" /> <a
+											th:href="@{{link}(link=${child.link})}"
+											th:text="${child.label}"
+											style="text-decoration: none; color: #333; line-height: 55px;"></a>
+										</span>
+									</div>
+								</div>
+								<!-- Child Post  -->
+							</div>
+							<!-- Agenda -->
+
+							<!-- Content of Post -->
+							<div th:utext="${content}"
+								style="border-radius: 0; margin-top: 2rem"></div>
+							<!-- Content of Post -->
+
+							<!-- Table of Series -->
+							<div>
+								<div th:each="seri : ${series}">
+									<h2 th:text="${seri.name}"></h2>
+									<p th:text="${seri.excerpt}"></p>
+									<div class="table-responsive mt-3">
+										<table class="table table-bordered list-post"
+											th:each="chapter : ${seri.ccategory}">
+											<thead>
+												<tr>
+													<th style="background: #f8f8f8" th:text="${chapter.name}"></th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr th:each="lesson : ${chapter.posts}">
+													<td><a th:href="@{/{slug}.html(slug=${lesson.slug})}"
+														th:text="${lesson.title}"></a></td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+							<!-- Table of Series -->
+						</div>
+					</div>
+				</div>
+				 
+			</div>
+	
+		
+	</main>
+
+	<th:block th:fragment="thisscript">
+		<!-- Begin Home JS -->
+		<script type="text/javascript"
+			th:src="@{/resources/public/js/home.js}"></script>
+		<!-- Begin Home JS -->
+	</th:block>
+</body>
+</html>

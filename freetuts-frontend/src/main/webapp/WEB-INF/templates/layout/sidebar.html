@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<body>
+	<aside class="col-12 col-lg-4 pt-3" th:fragment="sidebar-right">
+
+		<div class="widget mb-3">
+			<h3 class="widget-title"
+				style="background: #315062; color: white; margin-bottom: 0px; padding: 5px; font-size: 1.2em;">
+				<span>REVIEW KHÓA HỌC</span>
+			</h3>
+
+			<div class="mom-posts-widget">
+
+				<div class="mpw-post"
+					style="border-bottom: 1px solid #6c757d; padding: 5px;"
+					th:each="course, state : ${courses.content}"
+					th:if="${course.type} == '0'">
+					<div class="post-img main-sidebar-element"
+						style="float: left; margin-right: 10px; padding-top: 10px;">
+						<a th:href="@{${course.courseLink}}" th:title="${course.linkName}">
+							<img
+							src="https://freetuts.net/upload/learn_post/_thumbs/Images/2021/05/29/167/top-khoa-hoc-revit%20Architecture-6.jpg"
+							th:alt="${course.courseName}" width="90" height="60">
+						</a>
+					</div>
+					<div class="details has-feature-image">
+						<h4 style="font-size: larger;">
+							<a th:href="@{${course.courseLink}}"
+								th:title="${course.courseName}" th:text="${course.courseName}">
+							</a>
+						</h4>
+
+					</div>
+				</div>
+
+
+				<div class="mpw-post" style="text-align: right">
+					<a href="https://freetuts.net/khoa-hoc" title="khóa học">Xem
+						tất cả</a>
+				</div>
+			</div>
+		</div>
+
+
+
+		<div class="widget mb-3">
+			<h3 class="widget-title"
+				style="background: #315062; color: white; margin-bottom: 0px; padding: 5px; font-size: 1.2em;">
+				<span>MÃ GIẢM GIÁ</span>
+			</h3>
+
+			<table class="table table-bordered " style="margin-bottom: 0px;">
+				<tbody>
+					<tr th:each="coupon, state  : ${coupons.content}">
+						<td th:text="${coupon.code}">Coupon Code</td>
+						<td th:text="${coupon.value}+ '%'">Coupon Value</td>
+						<td><a type="button" class="btn" th:href="${coupon.url}"
+							style="background-color: #00a5e3; color: white; border-radius: 20px; box-shadow: 3px 3px 5px 0px #666;">
+								Lấy mã</a></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</aside>
+</body>
+
+</html>

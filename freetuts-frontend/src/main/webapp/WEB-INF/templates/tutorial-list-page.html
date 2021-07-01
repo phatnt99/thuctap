@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	th:include="admin-layout/baselayout :: page(title='Demo Home')">
+<body>
+	<main th:fragment="maincontent">
+		<div class="content-wrapper">
+			<!-- Content Header (Page header) -->
+			<section class="content-header">
+				<div class="container-fluid">
+					<div class="row mb-2">
+						<div class="col-sm-6">
+							<h1>Tutorial</h1>
+						</div>
+						<div class="col-sm-6">
+							<ol class="breadcrumb float-sm-right">
+								<li class="breadcrumb-item"><a href="#">Home</a></li>
+								<li class="breadcrumb-item"><a href="#">Tutorial</a></li>
+							</ol>
+						</div>
+					</div>
+				</div>
+				<!-- /.container-fluid -->
+			</section>
+
+			<!-- Main content -->
+			<section class="content">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-12">
+							<!-- Default box -->
+							<div class="card card-primary">
+								<div class="card-header">
+									<h3 class="card-title">Tutorial List</h3>
+								</div>
+								<!-- /.card-header -->
+								<!-- content start -->
+								<div class="card-body">
+									<table id="example2" class="table table-bordered table-hover">
+										<thead>
+											<tr>
+												<th>No</th>
+												<th>Name</th>
+												<th>Total Chapter</th>
+												<th>Total Post</th>
+												<th>Thread</th>
+												<th></th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr th:each="tutorial, state : ${tutorials.content}">
+												<td th:text="${state.count}"></td>
+												<td th:text="${tutorial.name}"></td>
+												<td th:text="${tutorial.countChapter}"></td>
+												<td th:text="${tutorial.countPost}"></td>
+												<td th:text="${tutorial.pcategory.name}"></td>
+												<td class="text-center" style="max-width: 5rem"><a
+													th:href="@{/admin/tutorials/{id}(id=${tutorial.id})}"
+													class="btn btn-primary">Edit</a> <a
+													th:href="@{/admin/tutorials/delete/{id}(id=${tutorial.id})}"
+													class="btn btn-primary">Delete</a></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<div class="card-footer">
+									<div class="row">
+										<div class="col">
+											<div class="btn-group dropup">
+												<button type="button"
+													class="btn btn-secondary dropdown-toggle"
+													data-toggle="dropdown" aria-haspopup="true"
+													aria-expanded="false" th:text="${pagination.size}"></button>
+												<div class="dropdown-menu">
+													<a class="dropdown-item" th:href="@{/admin/tutorials(size=5)}">5</a>
+													<a class="dropdown-item" th:href="@{/admin/tutorials(size=20)}">20</a>
+													<a class="dropdown-item" th:href="@{/admin/tutorials(size=50)}">50</a>
+												</div>
+											</div>
+										</div>
+										<nav class="col">
+											<ul class="pagination justify-content-end">
+												<li class="page-item"
+													th:classappend="${tutorials.first} ? disabled : null"><a
+													class="page-link" href="#" tabindex="-1">Previous</a></li>
+												<li class="page-item" th:if="${tutorials.first} == false"><a
+													class="page-link"
+													th:href="@{/admin/tutorials(page=${tutorials.number - 1}, size=${pagination.size})}"
+													th:text="${tutorials.number + 1 - 1}"></a></li>
+												<li class="page-item active"><a class="page-link"
+													th:href="@{/admin/tutorials(page=${tutorials.number}, size=${pagination.size})}"
+													th:text="${tutorials.number + 1}"></a></li>
+												<li class="page-item" th:if="${tutorials.last} == false"><a
+													class="page-link"
+													th:href="@{/admin/tutorials(page=${tutorials.number + 1}, size=${pagination.size})}"
+													th:text="${tutorials.number + 1 + 1}"></a></li>
+												<li class="page-item"
+													th:classappend="${tutorials.last} ? disabled : null"><a
+													class="page-link" href="#">Next</a></li>
+											</ul>
+										</nav>
+									</div>
+								</div>
+							</div>
+							<!-- /.card -->
+						</div>
+					</div>
+				</div>
+			</section>
+			<!-- /.content -->
+		</div>
+	</main>
+
+	<th:block th:fragment="thisscript">
+	</th:block>
+
+	<!-- script -->
+</body>
+</html>

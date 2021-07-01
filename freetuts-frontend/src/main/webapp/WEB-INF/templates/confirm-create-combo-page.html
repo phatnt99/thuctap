@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  th:include="user-layout/baselayout :: page(title='Demo Home')"
+>
+  <head th:fragment="thishead">
+    <style>
+      p {
+        margin-bottom: 20px;
+        line-height: 1.8em;
+        margin-top: 0;
+      }
+    </style>
+  </head>
+  <body>
+  
+  	<div style="margin-left: -12px" th:fragment="breadcrumb">
+		<nav aria-label="breadcrumb" class="mt-4">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"><a href="#">Trang chủ</a></li>
+				<li class="breadcrumb-item"><a href="#">Khóa học</a></li>
+				<li class="breadcrumb-item"><a href="#">Khóa học lập trình</a>
+				</li>
+				<li class="breadcrumb-item active" aria-current="page">[SỐC
+					tháng 4] KDATA - Giảm giá 30% gói Wordpress Hosting</li>
+			</ol>
+		</nav>
+
+		<!--<div class="row">
+              <ul class="nav nav-pills">
+                <li class="nav-item">
+                  <a class="nav-link active" href="#">Active</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Link</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Link</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link disabled" href="#">Disabled</a>
+                </li>
+              </ul>
+            </div>-->
+	</div>
+
+  
+  
+    <main class="col-12 col-lg-8 pt-3" th:fragment="maincontent" style="padding: 0; margin: 0">
+   
+            <div class="row">
+              <div class="col-12 mt-4 mb-4">
+                <div class="card" style="border-radius: 0; margin-bottom: 1rem">
+                  <div class="card-header" style=" background: #315062;
+                  color: white;
+                  text-align: left; font-weight: bold; font-size: 17px;">
+                    ĐẶT HÀNG COMBO
+                  </div>
+                  <div class="card-body">
+                    <!--Title of post-->
+                    <h3 style="font-size: 24px; font-weight: bold; padding-top: 2rem; padding-bottom: 1rem;">CÁC KHÓA HỌC TRONG COMBO</h3>
+                    <!--Title of post-->
+                    <div class="d-flex justify-content-center">
+                      <a th:href="@{/khoa-hoc/tao-combo}"
+                        type="button"
+                        class="btn"
+                        style="
+                          background-color: #3498db;
+                          color: white;
+                          border-radius: 20px;
+                          margin-bottom: 2rem;
+                          margin-top: 1rem;
+                          box-shadow: 3px 3px 5px 0px #666;
+                        "
+                      >
+                        TÔI MUỐN TẠO COMBO KHÁC
+                    </a>
+                    </div>
+                    <div class="table-responsive">
+                      <table class="table table-bordered">
+                        <tbody>
+                          <tr th:each="element : ${selectedCourses}">
+                            <td
+                              style="
+                                text-align: center;
+                                vertical-align: middle;
+                                padding: 5px 10px;
+                                width: 4rem;
+                              "
+                            >
+                              <a href=""
+                                ><img
+                                  style="
+                                    max-width: 100px;
+                                    height: auto;
+                                    margin: 10px 5px;
+                                  "
+                                  th:src="@{{link}(link=${element.post.thumbnail})}"
+                              /></a>
+                            </td>
+                            <td style="
+                            vertical-align: middle;
+                          ">
+                              <a style="text-decoration: none" th:href="@{/courses/{slug}(slug=${element.post.slug})}">
+                                <h5
+                                  style="
+                                    font-size: 17px;
+                                    color: #F09217;
+                                    font-weight: normal;
+                                  "
+                                  th:text="${element.courseName}"
+                                >
+                                  Thiết kế hiệu ứng với Javascript và
+                                  illustrator
+                                </h5>
+                              </a>
+                            </td>
+                            <td style="
+                            vertical-align: middle;
+                          ">
+                              <strong
+                                th:text="${#strings.replace(#numbers.formatDecimal(element.price, 3, 'COMMA', 2, 'POINT'), '.00', ' VND')}"
+                              ></strong>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td style="text-align: right" colspan="2">
+                              <strong>TỔNG TIỀN</strong>
+                            </td>
+                            <td
+                              style="font-weight: bold"
+                              th:text="${#strings.replace(#numbers.formatDecimal(totalPrice, 3, 'COMMA', 2, 'POINT'), '.00', ' VND')}"
+                            ></td>
+                          </tr>
+                          <tr>
+                            <td style="text-align: right" colspan="2">
+                              <strong>GIÁ SAU KHI GIẢM</strong>
+                            </td>
+                            <td
+                              style="font-weight: bold; color: red"
+                              th:text="${#strings.replace(#numbers.formatDecimal(finalPrice, 3, 'COMMA', 2, 'POINT'), '.00', ' VND')}"
+                            ></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    <!--Content of post-->
+                  </div>
+                </div>
+                <div
+                  class="card"
+                  style="
+                    background-color: #34495e;
+                    margin-bottom: 1rem;
+                    border-radius: 0;
+                  "
+                >
+                  <h5
+                    style="
+                      color: white;
+                      margin-top: 2rem;
+                      margin-bottom: 0.5rem;
+                      text-align: center;
+                    "
+                  >
+                    ĐĂNG KÝ / THANH TOÁN COMBO
+                  </h5>
+                  <p
+                    style="
+                      color: white;
+                      margin-bottom: 2rem;
+                      text-align: center;
+                    "
+                  >
+                    ###########################
+                  </p>
+
+                  <div class="card-body">
+                    <form
+                      method="POST"
+                      th:action="@{/invoices/register-user-combo}"
+                      th:object="${invoice}"
+                    >
+                      <input
+                        type="text"
+                        th:name="listIds"
+                        th:value="${invoice.listIds}"
+                        style="display: none"
+                      />
+                      <input
+                        type="text"
+                        th:name="totalPrice"
+                        th:value="${finalPrice}"
+                        style="display: none"
+                      />
+                      <div class="form-group" style="margin-bottom: 2rem">
+                        <label
+                          for="name"
+                          style="
+                            color: white;
+                            margin-bottom: 0.5rem;
+                            font-weight: bold;
+                          "
+                          >Tên của bạn
+                          <span style="color: red"> * </span></label
+                        >
+                        <input
+                          required
+                          style="border-radius: 0"
+                          type="text"
+                          class="form-control"
+                          id="name"
+                          placeholder="Tên của bạn (required)"
+                          th:field="*{fullName}"
+                        />
+                      </div>
+                      <div class="form-group" style="margin-bottom: 2rem">
+                        <label
+                          for="phone"
+                          style="
+                            color: white;
+                            margin-bottom: 0.5rem;
+                            font-weight: bold;
+                          "
+                          >Điện thoại của bạn
+                          <span style="color: red"> * </span></label
+                        >
+                        <input
+                          required
+                          style="border-radius: 0"
+                          type="number"
+                          class="form-control"
+                          id="phone"
+                          placeholder="Điện thoại của bạn (required)"
+                          th:field="*{phone}"
+                        />
+                      </div>
+                      <div class="form-group" style="margin-bottom: 2rem">
+                        <label
+                          for="email"
+                          style="
+                            color: white;
+                            margin-bottom: 0.5rem;
+                            font-weight: bold;
+                          "
+                          >Email của bạn
+                          <span style="color: red"> * </span></label
+                        >
+                        <input
+                          required
+                          style="border-radius: 0"
+                          type="email"
+                          class="form-control"
+                          id="email"
+                          placeholder="Email của bạn (required)"
+                          th:field="*{email}"
+                        />
+                      </div>
+                      <div class="form-group" style="margin-bottom: 2rem">
+                        <label
+                          for="linkFb"
+                          style="
+                            color: white;
+                            margin-bottom: 0.5rem;
+                            font-weight: bold;
+                          "
+                          >Link facebook</label
+                        >
+                        <input
+                          required
+                          style="border-radius: 0"
+                          type="text"
+                          class="form-control"
+                          id="linkFb"
+                          placeholder="Facebook của bạn (required)"
+                          th:field="*{facebook}"
+                        />
+                      </div>
+                      <div class="card" style="background-color: white">
+                        <div class="card-body accordion" id="accordionExample">
+                          <h6
+                            style="
+                              color: #40454d;
+                              margin-top: 0.5rem;
+                              margin-bottom: 1rem;
+                              text-align: center;
+                              font-size: 17px;
+                              font-weight: bold;
+                            "
+                          >
+                            CHỌN HÌNH THỨC THANH TOÁN
+                          </h6>
+                          <div class="form-check mb-3">
+                            <input
+                              class="form-check-input"
+                              type="radio"
+                              name="radio"
+                              id="radio-bank"
+                              th:value="1"
+                              data-bs-toggle="collapse"
+                              href="#collapseOne"
+                              role="button"
+                              aria-expanded="true"
+                              aria-controls="collapseOne"
+                              data-bs-target="#collapseOne"
+                              th:field="*{paymentMethod}"
+                              th:checked="${invoice.paymentDetail} == 1"
+                            />
+                            <label
+                              class="form-check-label"
+                              for="radio-bank"
+                              style="font-weight: bold"
+                            >
+                              THANH TOÁN QUA NGÂN HÀNG
+                            </label>
+                          </div>
+                          <div
+                            class="collapse show"
+                            id="collapseOne"
+                            aria-labelledby="radio-bank"
+                            data-bs-parent="#accordionExample"
+                          >
+                            <div
+                              class="card card-body mb-3 border-0"
+                              style="
+                                background-color: #d3f4e1;
+                                padding: 2rem;
+                                font-size: 17px;
+                                line-height: 1.6em;
+                              "
+                            >
+                              <ul style="margin-bottom: 1rem">
+                                <li>
+                                  <strong>VIETCOMBANK</strong>
+                                  <br />Chủ tài khoản: Nguyễn Văn Cường <br />Số
+                                  tài khoản: 0251002704529 <br />Chi nhánh: Bình
+                                  Tây, Q6, TP HCM
+                                </li>
+                                <li>
+                                  <strong>SACOMBANK</strong>
+                                  <br />Chủ tài khoản: Nguyễn Văn Cường <br />Số
+                                  tài khoản: 050053235619 <br />Chi nhánh:
+                                  Cưkuin Đăklăk
+                                </li>
+                                <li>
+                                  <strong>VIB</strong>
+                                  <br />Chủ tài khoản: Nguyễn Văn Cường <br />Số
+                                  tài khoản: 410704060192515 <br />Buôn Ma Thuột
+                                  - ĐăkLăk
+                                </li>
+                              </ul>
+                              <p style="color: red; font-size: 17px; margin: 0">
+                                Số tiền:
+                                <span
+                                  style="
+                                    color: red;
+                                    font-size: 17px;
+                                    font-weight: bold;
+                                    margin: 0;
+                                  "
+                                  th:text="${#strings.replace(#numbers.formatDecimal(finalPrice, 3, 'COMMA', 2, 'POINT'), '.00', ' VND')}"
+                                ></span>
+                              </p>
+                            </div>
+                          </div>
+                          <div class="form-check mb-3">
+                            <input
+                              class="form-check-input collapsed"
+                              type="radio"
+                              name="radio"
+                              id="radio-post"
+                              th:value="2"
+                              data-bs-toggle="collapse"
+                              href="#collapseTwo"
+                              role="button"
+                              aria-expanded="false"
+                              aria-controls="collapseTwo"
+                              data-bs-target="#collapseTwo"
+                              th:field="*{paymentMethod}"
+                            />
+                            <label
+                              class="form-check-label"
+                              for="radio-post"
+                              style="font-weight: bold"
+                            >
+                              THANH TOÁN QUA BƯU ĐIỆN
+                            </label>
+                          </div>
+                          <div
+                            class="collapse"
+                            id="collapseTwo"
+                            aria-labelledby="radio-post"
+                            data-bs-parent="#accordionExample"
+                          >
+                            <div
+                              class="card card-body mb-3 border-0"
+                              style="
+                                background-color: #d3f4e1;
+                                padding: 2rem;
+                                font-size: 17px;
+                                line-height: 1.6em;
+                              "
+                            >
+                              <p>
+                                Bạn phải nhập đúng địa chỉ bên dưới vì mình sẽ
+                                gửi mã kích hoạt qua đường bưu điện, thanh toán
+                                tận nhà.
+                              </p>
+                              <input
+                                style="border-radius: 0"
+                                type="text"
+                                class="form-control"
+                                id="paymentDetail"
+                                placeholder="Địa chỉ của bạn"
+                                th:field="*{paymentDetail}"
+                              />
+                              <p
+                                style="
+                                  color: red;
+                                  font-size: 17px;
+                                  margin-top: 20px;
+                                  margin-bottom: 0;
+                                "
+                              >
+                                Số tiền:
+                                <span
+                                  style="
+                                    color: red;
+                                    font-size: 17px;
+                                    font-weight: bold;
+                                  "
+                                  th:text="${#strings.replace(#numbers.formatDecimal(finalPrice + 25000, 3, 'COMMA', 2, 'POINT'), '.00', ' VND')}"
+                                ></span>
+                                <span style="color: black; font-size: 17px"
+                                  >. Trong đó 25,000đ là phí gửi bưu điện</span
+                                >
+                              </p>
+                            </div>
+                          </div>
+                          <div class="form-check mb-3">
+                            <input
+                              class="form-check-input collapsed"
+                              type="radio"
+                              name="radio"
+                              id="radio-paypal"
+                              th:value="3"
+                              data-bs-toggle="collapse"
+                              href="#collapseThree"
+                              role="button"
+                              aria-expanded="false"
+                              aria-controls="collapseThree"
+                              data-bs-target="#collapseThree"
+                              th:field="*{paymentMethod}"
+                            />
+                            <label
+                              class="form-check-label"
+                              for="radio-paypal"
+                              style="font-weight: bold"
+                            >
+                              THANH TOÁN QUA PAYPAL
+                            </label>
+                          </div>
+                          <div
+                            class="collapse"
+                            id="collapseThree"
+                            aria-labelledby="radio-paypal"
+                            data-bs-parent="#accordionExample"
+                          >
+                            <div
+                              class="card card-body mb-3 border-0"
+                              style="
+                                background-color: #d3f4e1;
+                                padding: 2rem;
+                                font-size: 17px;
+                                line-height: 1.6em;
+                              "
+                            >
+                              <p style="margin: 0">
+                                Gửi $ đến địa chỉ paypal: cuongwriter@gmail.com.
+                              </p>
+                              <p style="color: red; font-size: 17px; margin: 0">
+                                Số tiền:
+                                <span
+                                  style="
+                                    color: red;
+                                    font-size: 17px;
+                                    font-weight: bold;
+                                  "
+                                  th:text="${#numbers.formatDecimal(finalPrice * 0.0000432202, 0, 'COMMA', 2, 'POINT')}"
+                                >
+                                </span>
+                                <span
+                                  style="
+                                    color: red;
+                                    font-size: 17px;
+                                    font-weight: bold;
+                                  "
+                                  >$
+                                </span>
+                                giá đã bao gồm phí giao dịch paypal
+                              </p>
+                            </div>
+                          </div>
+                          <div class="form-check mb-3">
+                            <input
+                              class="form-check-input"
+                              type="radio"
+                              name="radio"
+                              id="radio-momo"
+                              th:value="4"
+                              data-bs-toggle="collapse"
+                              href="#collapseFour"
+                              role="button"
+                              aria-expanded="false"
+                              aria-controls="collapseFour"
+                              data-bs-target="#collapseFour"
+                              th:field="*{paymentMethod}"
+                            />
+                            <label
+                              class="form-check-label"
+                              for="radio-momo"
+                              style="font-weight: bold"
+                            >
+                              THANH TOÁN QUA VÍ MOMO
+                            </label>
+                          </div>
+                          <div
+                            class="collapse"
+                            id="collapseFour"
+                            aria-labelledby="radio-momo"
+                            data-bs-parent="#accordionExample"
+                          >
+                            <div
+                              class="card card-body mb-3 border-0"
+                              style="
+                                background-color: #d3f4e1;
+                                padding: 2rem;
+                                font-size: 17px;
+                                line-height: 1.6em;
+                              "
+                            >
+                              <p style="margin: 0">
+                                Thanh toán qua ví với số điện thoại: 0979306603.
+                              </p>
+                              <p
+                                style="
+                                  color: red;
+                                  font-size: 17px;
+                                  margin-top: 0px;
+                                  margin-bottom: 0;
+                                "
+                              >
+                                Số tiền:
+                                <span
+                                  style="
+                                    color: red;
+                                    font-size: 17px;
+                                    font-weight: bold;
+                                  "
+                                  th:text="${#strings.replace(#numbers.formatDecimal(finalPrice, 3, 'COMMA', 2, 'POINT'), '.00', ' VND')}"
+                                ></span>
+                              </p>
+                            </div>
+                          </div>
+                          <div>
+                            <br />
+                            <p style="font-size: 17px">
+                              <strong>Lưu ý: </strong>Nội dung gửi tiền là
+                              <strong>[SĐT]</strong> mà bạn đã nhập ở trên.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="d-flex justify-content-center">
+                        <button
+                          type="submit"
+                          class="btn"
+                          style="
+                            background-color: #2ecc71;
+                            color: white;
+                            margin-bottom: 1rem;
+                            margin-top: 2rem;
+                          "
+                        >
+                          GỬI THÔNG TIN
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+ 
+            </div>
+   
+      
+    </main>
+
+    <th:block th:fragment="thisscript">
+      <!-- Begin Home JS -->
+      <script
+        type="text/javascript"
+        th:src="@{/resources/public/js/home.js}"
+      ></script>
+      <!-- Begin Home JS -->
+    </th:block>
+  </body>
+</html>

@@ -1,0 +1,17 @@
+eclipse.preferences.version=1
+encoding//src/main/java=UTF-8
+encoding//src/main/java/net/freetuts/frontend/config/WebMvcConfig.java=UTF-8
+encoding//src/main/java/net/freetuts/frontend/interceptor/UrlLocaleInterceptor.java=UTF-8
+encoding//src/main/resources=UTF-8
+encoding//src/main/webapp/WEB-INF/templates/category-create-page.html=UTF-8
+encoding//src/main/webapp/WEB-INF/templates/home.html=UTF-8
+encoding//src/main/webapp/WEB-INF/templates/home2.html=UTF-8
+encoding//src/main/webapp/WEB-INF/templates/layout/header.html=UTF-8
+encoding//src/main/webapp/WEB-INF/templates/layout/sidebar.html=UTF-8
+encoding//src/main/webapp/WEB-INF/templates/post-create-page.html=UTF-8
+encoding//src/main/webapp/WEB-INF/templates/post-detail-page.html=UTF-8
+encoding//src/main/webapp/WEB-INF/templates/post-list-page.html=UTF-8
+encoding//src/main/webapp/WEB-INF/templates/post-page.html=UTF-8
+encoding//src/main/webapp/resources/public/scss/_tablet.scss=UTF-8
+encoding//src/test/java=UTF-8
+encoding/<project>=UTF-8

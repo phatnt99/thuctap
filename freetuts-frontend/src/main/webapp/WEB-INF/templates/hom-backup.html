@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	th:include="user-layout/baselayout :: page(title='Demo Home')">
+<head th:fragment="thishead">
+<style>
+p {
+	margin-bottom: 20px;
+	line-height: 1.8em;
+	margin-top: 0;
+	font-size: 17px;
+}
+
+a {
+	text-decoration: none;
+	color: black;
+}
+
+a:hover {
+	text-decoration: none;
+	color: #F09217;
+}
+</style>
+</head>
+<body>
+	<main class="row" th:fragment="maincontent"
+		style="padding: 0; margin: 0">
+		<div class="col-1"></div>
+		<div class="col-10">
+			<div class="row">
+				<div class="col-1"></div>
+				<div class="col-10">
+					<div class="row">
+						<div class="col-9 mt-4 mb-4">
+							<div
+								style="background: #fff; padding: 20px; border: 1px solid #e0e0e0; margin-bottom: 20px; position: relative; padding-bottom: 0 !important;"
+								th:each="posts : ${homePosts}">
+								<header
+									style="background: #2f6e91; margin: -20px -20px 0; padding: 10px 15px; border-bottom: 1px solid #eaeaea; font-size: 17px; font-weight: bold;"
+									th:text="${#strings.toUpperCase(posts.cateName)}">
+
+								</header>
+								<div
+									style="overflow: hidden; margin-right: -20px; position: relative;">
+									<div
+										style="width: 304px; padding: 20px 20px 20px 0; box-sizing: border-box; float: left; overflow: hidden;"
+										th:if="${posts.posts.size() > 0}">
+										<article>
+											<div>
+												<a><img
+													th:src="@{{link}(link=${posts.posts.get(0).thumbnail})}"
+													width="284" height="180" /></a>
+											</div>
+											<div>
+												<h3 style="font-size: 17px; font-weight: bold">
+													<a
+														th:href="@{{slug}.html(slug=${posts.posts.get(0).slug})}"
+														th:text="${posts.posts.get(0).title}"></a>
+												</h3>
+												<p
+													th:text="${posts.posts.get(0).excerpt.substring(0, 100) + '...'}">
+
+												</p>
+											</div>
+										</article>
+									</div>
+									<div
+										style="margin-left: 304px; border: 0 solid #eaeaea; border-left-width: 1px; padding-bottom: 200px; margin-bottom: -200px;">
+										<ul style="margin: 0; padding: 0; list-style: none">
+											<li
+												style="padding: 15px; border-bottom: 1px solid #eaeaea; overflow: hidden;"
+												th:each="post, state : ${posts.posts}"
+												th:if="${state.count} != 1">
+												<a href=""><img
+													th:src="@{{link}(link=${post.thumbnail})}" width="90px"
+													height="72px" style="float: left; margin-right: 1rem" /></a>
+												<h4 style="font-weight: normal; font-size: 17px">
+													<a th:href="@{{slug}.html(slug=${post.slug})}"
+														th:text="${post.title}"></a>
+												</h4>
+											</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-3 mt-4 mb-4">
+							<div class="widget mb-3">
+								<h3 class="widget-title"
+									style="background: #315062; color: white; margin-bottom: 0px; padding: 5px; font-size: 1.2em;">
+									<span>REVIEW KHÓA HỌC</span>
+								</h3>
+
+								<div class="mom-posts-widget">
+
+									<div class="mpw-post"
+										style="border-bottom: 1px solid #6c757d; padding: 5px;"
+										th:each="course, state : ${courses.content}"
+										th:if="${course.type} == '0'">
+										<div class="post-img main-sidebar-element"
+											style="float: left; margin-right: 10px; padding-top: 10px;">
+											<a th:href="@{${course.courseLink}}"
+												th:title="${course.linkName}"> <img
+												src="https://freetuts.net/upload/learn_post/_thumbs/Images/2021/05/29/167/top-khoa-hoc-revit%20Architecture-6.jpg"
+												th:alt="${course.courseName}" width="90" height="60">
+											</a>
+										</div>
+										<div class="details has-feature-image">
+											<h4 style="font-size: larger;">
+												<a th:href="@{${course.courseLink}}"
+													th:title="${course.courseName}"
+													th:text="${course.courseName}"> </a>
+											</h4>
+
+										</div>
+									</div>
+
+
+									<div class="mpw-post" style="text-align: right">
+										<a href="https://freetuts.net/khoa-hoc" title="khóa học">Xem
+											tất cả</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-1"></div>
+			</div>
+		</div>
+		<div class="col-1"></div>
+	</main>
+
+	<th:block th:fragment="thisscript">
+		<!-- Begin Home JS -->
+		<script type="text/javascript"
+			th:src="@{/resources/public/js/home.js}"></script>
+		<!-- Begin Home JS -->
+	</th:block>
+</body>
+</html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	th:include="admin-layout/baselayout :: page(title='Demo Home')">
+<body>
+	<main th:fragment="maincontent">
+		<div class="content-wrapper">
+			<!-- Content Header (Page header) -->
+			<section class="content-header">
+				<div class="container-fluid">
+					<div class="row mb-2">
+						<div class="col-sm-6">
+							<h1>report</h1>
+						</div>
+						<div class="col-sm-6">
+							<ol class="breadcrumb float-sm-right">
+								<li class="breadcrumb-item"><a href="#">Home</a></li>
+								<li class="breadcrumb-item"><a href="#">Layout</a></li>
+								<li class="breadcrumb-item active">Collapsed Sidebar</li>
+							</ol>
+						</div>
+					</div>
+				</div>
+				<!-- /.container-fluid -->
+			</section>
+
+			<!-- Main content -->
+			<section class="content">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-12">
+							<!-- Default box -->
+							<div class="card card-primary">
+								<div class="card-header">
+									<h3 class="card-title">Quick Example</h3>
+								</div>
+								<!-- /.card-header -->
+								<!-- content start -->
+								<div class="card-body">
+									<table id="example2" class="table table-bordered table-hover">
+										<thead>
+											<tr>
+												<th>No</th>
+												<th>Content</th>
+												<th>Time</th>
+												<th></th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr th:each="report, state  : ${reports.content}">
+												<td th:text="${state.count}"></td>
+
+												<block
+													th:with="content=${report.content}, len=${#strings.length(report.content)}">
+												<td
+													th:text="(${len} > 100) ? ${#strings.substring(report.content,0,100)} + ' ........ ' : ${content}"></td>
+												</block>
+												<td th:text="${report.createdAt}"></td>
+												<td class="text-center" style="max-width: 5rem"><a
+													th:href="@{/admin/reports/{id}(id=${report.id})}"
+													class="btn btn-primary">Detail</a>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<div class="card-footer">
+									<div class="row">
+										<div class="col">
+											<div class="btn-group dropup">
+												<button type="button"
+													class="btn btn-secondary dropdown-toggle"
+													data-toggle="dropdown" aria-haspopup="true"
+													aria-expanded="false" th:text="${pagination.size}"></button>
+												<div class="dropdown-menu">
+													<a class="dropdown-item"
+														th:href="@{/admin/reports(size=5)}">5</a> <a
+														class="dropdown-item" th:href="@{/admin/reports(size=20)}">20</a>
+													<a class="dropdown-item"
+														th:href="@{/admin/reports(size=50)}">50</a>
+												</div>
+											</div>
+										</div>
+										<nav class="col">
+											<ul class="pagination justify-content-end">
+												<li class="page-item"
+													th:classappend="${reports.first} ? disabled : null"><a
+													class="page-link" href="#" tabindex="-1">Previous</a></li>
+												<li class="page-item" th:if="${reports.first} == false"><a
+													class="page-link"
+													th:href="@{/admin/reports(page=${reports.number - 1}, size=${pagination.size})}"
+													th:text="${reports.number + 1 - 1}"></a></li>
+												<li class="page-item active"><a class="page-link"
+													th:href="@{/admin/reports(page=${reports.number}, size=${pagination.size})}"
+													th:text="${reports.number + 1}"></a></li>
+												<li class="page-item" th:if="${reports.last} == false"><a
+													class="page-link"
+													th:href="@{/admin/reports(page=${reports.number + 1}, size=${pagination.size})}"
+													th:text="${reports.number + 1 + 1}"></a></li>
+												<li class="page-item"
+													th:classappend="${reports.last} ? disabled : null"><a
+													class="page-link" href="#">Next</a></li>
+											</ul>
+										</nav>
+									</div>
+								</div>
+							</div>
+							<!-- /.card -->
+						</div>
+					</div>
+				</div>
+			</section>
+			<!-- /.content -->
+		</div>
+	</main>
+
+	<th:block th:fragment="thisscript">
+	</th:block>
+
+	<!-- script -->
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	th:fragment="page(title)">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<meta content="ie=edge" http-equiv="x-ua-compatible" />
+<title th:text="${title} ? ${title} : 'default title'">Title</title>
+
+<!-- Begin Base Layout Css-->
+<link th:href="@{/resources/public/css/baselayout.css}" rel="stylesheet" />
+<!-- End Base Layout Css-->
+
+ <!-- Begin Header Css-->
+<link th:href="@{/resources/public/css/header.css}" rel="stylesheet" />
+<!-- End Header Css-->
+
+ <!-- Begin Header Css-->
+<link th:href="@{/resources/public/css/sidebar.css}" rel="stylesheet" />
+<!-- End Header Css-->
+
+<!-- Begin Fontawesome Css-->
+<link th:href="@{/resources/public/font/fontawesome/all.css}"
+	rel="stylesheet" />
+<!-- End Fontawesome Css-->
+
+<link th:replace="this :: thishead" />
+</head>
+
+<body>
+	<!-- Begin Header-->
+	<header th:replace="user-layout/header :: header">Header</header>
+	<!-- Begin Header-->
+
+	<!-- Begin Main Container-->
+	<div class="container">
+	
+		<div th:replace="~{this :: breadcrumb} ?: _"></div>
+		
+		<div class="row">
+			<!-- Begin Main Content-->
+			<main th:replace="this :: maincontent">Conents</main>
+			<!-- Begin Main Content-->
+
+			<!-- Begin Right SideBar-->
+			<aside th:replace="user-layout/sidebar :: sidebar-right">Right
+				SideBar</aside>
+			<!-- Begin Footer-->
+		</div>
+	</div>
+	<!-- Begin Main Container-->
+
+	<!-- Begin Footer-->
+	<footer th:replace="user-layout/footer :: footer">Footer</footer>
+	<!-- End Footer-->
+
+	<!-- Begin Boostrap JS-->
+	<link
+		href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css"
+		rel="stylesheet"
+		integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x"
+		crossorigin="anonymous">
+
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+		crossorigin="anonymous"></script>
+	<!-- End Boostrap JS-->
+
+	<!-- Begin Jquery JS-->
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<!-- End Jquery JS-->
+
+	<!-- Begin Footer JS-->
+	<script type="text/javascript"
+		th:src="@{/resources/public/js/footer.js}"></script>
+	<!-- Begin Footer JS-->
+
+	<th:block th:replace="this :: thisscript"></th:block>
+
+</body>
+
+</html>

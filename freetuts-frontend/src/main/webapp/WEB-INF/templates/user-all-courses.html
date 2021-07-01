@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	th:include="user-layout/baselayout :: page(title='Demo Home')">
+<head th:fragment="thishead">
+<style>
+p {
+	margin-bottom: 20px;
+	line-height: 1.8em;
+	margin-top: 0;
+}
+
+.tabbar-custom ul {
+	padding: 0px;
+	overflow: hidden;
+	margin-bottom: -10px;
+	background: #ededed;
+}
+
+.tabbar-custom li {
+	float: left;
+	list-style: none;
+	font-size: 16px;
+	background: #ededed;
+	border: solid 1px #ededed;
+	padding: 5px 0px;
+}
+
+.tabbar-custom a {
+	text-decoration: none;
+	color: black;
+	padding: 3px 10px;
+}
+
+.tabbar-custom li:first-child {
+	border-left: solid 5px #2f6e91 !important;
+}
+
+.tabbar-custom li:hover {
+	background: #fff;
+}
+
+.tabbar-custom .active {
+	background: #fff;
+}
+
+.tabbar-custom .normal {
+	background: #ededed;
+}
+</style>
+</head>
+<body>
+
+	<div style="margin-left: -12px" th:fragment="breadcrumb">
+		<nav aria-label="breadcrumb" class="mt-4">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
+				<th:block th:if="${currentCategory} == 'khoa-hoc'">
+					<li class="breadcrumb-item"><a th:href="@{/khoa-hoc}">Khóa
+							học</a></li>
+				</th:block>
+				<th:block th:if="${currentCategory} != 'khoa-hoc'">
+					<li class="breadcrumb-item"><a th:href="@{/khoa-hoc}">Khóa
+							học</a></li>
+					<li class="breadcrumb-item"><a
+						th:href="@{/khoa-hoc/{slug}(slug=${currentCategory})}"
+						th:text="${currentCategoryName}"></a></li>
+				</th:block>
+			</ol>
+		</nav>
+		<div class="tabbar-custom">
+			<ul>
+				<li th:class="${tab.slug == currentCategory} ? 'active' : 'normal'"
+					th:each="tab : ${categories}"><a
+					th:href="@{/khoa-hoc/{slug}(slug=${tab.slug})}"
+					th:text="${tab.name}"></a></li>
+			</ul>
+		</div>
+	</div>
+
+
+	<main class="col-12 col-lg-8 pt-3" th:fragment="maincontent"
+		style="padding: 0; margin: 0">
+	
+		
+		
+				
+			
+			 
+					<div class="row">
+						<div class="col-12 mt-4 mb-4">
+							<div class="card" style="border-radius: 0; margin-bottom: 1rem">
+								<div class="card-body">
+									<h1
+										style="color: #40454d; margin-bottom: 1rem; font-weight: 600; font-size: 26px; line-height: 1.3em;">
+										Đánh giá khóa học online!</h1>
+
+									<div class="mt-4 mb-4"
+										style="font-size: 17px; line-height: 1.6em">
+										<p>Bạn đang cần tìm khóa học hoặc mua khóa học online với
+											giá rẻ nhất? Vậy hãy xem những đánh giá khóa học online mà
+											freetuts giới thiệu ở đây nhé!</p>
+										<div class="d-flex justify-content-center">
+											<a th:href="@{/khoa-hoc/tao-combo}" type="button" class="btn"
+												style="background-color: #00a5e3; color: white; border-radius: 20px; box-shadow: 3px 3px 5px 0px #666;">
+												Tạo Combo </a>
+										</div>
+									</div>
+								</div>
+							</div>
+							<th:block th:if="${combo}">
+								<table class="table table-bordered" style="margin-bottom: 1rem">
+									<thead
+										style="background: #2f6e91; color: white; text-align: left;">
+										<tr>
+											<th scope="col" colspan="2">CÁC COMBO</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="combo : ${combo}">
+											<td
+												style="text-align: center; vertical-align: middle; padding: 5px 10px; width: 4rem;">
+												<a href=""><img
+													style="max-width: 100px; height: auto; margin: 10px 5px;"
+													th:src="@{{link}(link=${combo.post.thumbnail})}" /></a>
+											</td>
+											<td><a
+												th:href="@{/khoa-hoc/{slug}.html(slug=${combo.post.slug})}"
+												style="text-decoration: none">
+													<h5
+														style="font-size: 17px; padding-bottom: 1rem; color: black; font-weight: normal;"
+														th:text="${combo.courseName}">
+														Thiết kế hiệu ứng với Javascript và illustrator</h5>
+													<p style="font-size: 17px; color: black; margin-bottom: 0;">
+														Giá: <span
+															style="color: red; font-size: 15px; font-weight: bold;"
+															th:text="${#strings.replace(#numbers.formatDecimal(combo.price, 3, 'COMMA', 2, 'POINT'), '.00', ' VND')}">299.000đ</span>
+													</p>
+											</a></td>
+										</tr>
+									</tbody>
+								</table>
+							</th:block>
+							<th:block th:each="element : ${data}">
+								<table class="table table-bordered" style="margin-bottom: 1rem">
+									<thead
+										style="background: #2f6e91; color: white; text-align: left;">
+										<tr>
+											<th scope="col" colspan="2" th:text="${element.key}"></th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="course : ${element.value}">
+											<td
+												style="text-align: center; vertical-align: middle; padding: 5px 10px; width: 4rem;">
+												<a href=""><img
+													style="max-width: 100px; height: auto; margin: 10px 5px;"
+													th:src="@{{link}(link=${course.post.thumbnail})}" /></a>
+											</td>
+											<td><a
+												th:href="@{/khoa-hoc/{slug}.html(slug=${course.post.slug})}"
+												style="text-decoration: none">
+													<h5
+														style="font-size: 17px; padding-bottom: 1rem; color: black; font-weight: normal;"
+														th:text="${course.courseName}">
+														Thiết kế hiệu ứng với Javascript và illustrator</h5>
+													<p style="font-size: 17px; color: black; margin-bottom: 0;">
+														Giá: <span
+															style="color: red; font-size: 15px; font-weight: bold;"
+															th:text="${#strings.replace(#numbers.formatDecimal(course.price, 3, 'COMMA', 2, 'POINT'), '.00', ' VND')}">299.000đ</span>
+													</p>
+											</a></td>
+										</tr>
+									</tbody>
+								</table>
+							</th:block>
+						</div>
+						 
+					</div>
+			
+			
+	
+
+
+	</main>
+
+	<th:block th:fragment="thisscript">
+		<!-- Begin Home JS -->
+		<script type="text/javascript"
+			th:src="@{/resources/public/js/home.js}"></script>
+		<!-- Begin Home JS -->
+	</th:block>
+</body>
+</html>

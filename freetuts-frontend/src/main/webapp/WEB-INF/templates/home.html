@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	th:include="user-layout/baselayout :: page(title='Demo Home')">
+<head th:fragment="thishead">
+<style>
+p {
+	margin-bottom: 20px;
+	line-height: 1.8em;
+	margin-top: 0;
+	font-size: 17px;
+}
+
+.article-post a {
+color: black;
+}
+
+.article-post a:hover {
+color: #F09217 !important;
+}
+
+
+</style>
+</head>
+<body>
+	<main class="col-12 col-lg-8 pt-3 mt-4" th:fragment="maincontent">
+		<div class="row">
+		<div
+			style="background: #fff; padding: 20px; border: 1px solid #e0e0e0; margin-bottom: 20px; position: relative; padding-bottom: 0 !important;"
+			th:each="posts : ${homePosts}" th:if="${posts.cateName} != 'Khóa học'">
+			<header
+				style="background: #2f6e91; margin: -20px -20px 0; padding: 10px 15px; border-bottom: 1px solid #eaeaea; font-size: 17px; font-weight: bold;"
+				th:text="${#strings.toUpperCase(posts.cateName)}"> </header>
+			<div class="article-post"
+				style="overflow: hidden; margin-right: -20px; position: relative;">
+				<div
+					style="width: 304px; padding: 20px 20px 20px 0; box-sizing: border-box; float: left; overflow: hidden;"
+					th:if="${posts.posts.size() > 0}">
+					<article>
+						<div>
+							<a><img
+								th:src="@{{link}(link=${posts.posts.get(0).thumbnail})}"
+								width="284" height="180" /></a>
+						</div>
+						<div style="margin-top: 1rem;">
+							<h3 style="font-size: 17px; font-weight: 700">
+								<a th:href="@{{slug}.html(slug=${posts.posts.get(0).slug})}"
+									th:text="${posts.posts.get(0).title}"></a>
+							</h3>
+							<p
+								th:text="${posts.posts.get(0).excerpt.substring(0, 100) + '...'}">
+
+							</p>
+						</div>
+					</article>
+				</div>
+				<div
+					style="margin-left: 304px; border: 0 solid #eaeaea; border-left-width: 1px; padding-bottom: 200px; margin-bottom: -200px;">
+					<ul style="margin: 0; padding: 0; list-style: none">
+						<li
+							style="padding: 15px; border-bottom: 1px solid #eaeaea; overflow: hidden;"
+							th:each="post, state : ${posts.posts}"
+							th:if="${state.count} != 1"><a href=""><img
+								th:src="@{{link}(link=${post.thumbnail})}" width="90px"
+								height="72px" style="float: left; margin-right: 1rem" /></a>
+							<h4 style="font-weight: normal; font-size: 17px">
+								<a th:href="@{{slug}.html(slug=${post.slug})}"
+									th:text="${post.title}"></a>
+							</h4></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		</div>
+	</main>
+
+	<th:block th:fragment="thisscript">
+		<!-- Begin Home JS -->
+		<script type="text/javascript"
+			th:src="@{/resources/public/js/home.js}"></script>
+		<!-- Begin Home JS -->
+	</th:block>
+</body>
+</html>

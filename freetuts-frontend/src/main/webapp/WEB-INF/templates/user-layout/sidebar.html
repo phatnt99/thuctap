@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<body>
+	<aside class="col-12 col-lg-4 pt-3 mt-4" th:fragment="sidebar-right">
+
+		<div class="widget mb-3" style="border: 1px solid rgba(0,0,0,.125)">
+			<h3 class="widget-title"
+				style="background: #2f6e91; color: white; margin-bottom: 0px; padding: 5px; font-size: 1.2em;">
+				<span>REVIEW KHÓA HỌC</span>
+			</h3>
+
+			<div class="mom-posts-widget">
+
+				<div class="mpw-post"
+					style="border-bottom: 1px solid rgba(0,0,0,.125); padding: 15px 5px;"
+					th:each="course, state : ${courses}"
+					th:if="${course.type} == '0'">
+					<div class="post-img main-sidebar-element"
+						style="float: left; margin-right: 10px;">
+						<a th:href="@{${course.courseLink}}" th:title="${course.linkName}">
+							<img
+							th:src="@{{link}(link=${course.post.thumbnail})}" width="90" height="60">
+						</a>
+					</div>
+					<div class="details has-feature-image">
+						<h4 style="font-size: larger;">
+							<a th:href="@{/khoa-hoc/{slug}.html(slug=${course.post.slug})}"
+								th:title="${course.courseName}" th:text="${course.courseName} ">
+							</a>
+						</h4>
+
+					</div>
+				</div>
+
+
+				<div class="mpw-post" style="text-align: right; margin-top: 10px; margin-bottom: 10px; margin-right: 10px" >
+					<a href="https://freetuts.net/khoa-hoc" title="khóa học">Xem
+						tất cả</a>
+				</div>
+			</div>
+		</div>
+
+
+
+		<div class="widget mb-3">
+			<h3 class="widget-title"
+				style="background: #2f6e91; color: white; margin-bottom: 0px; padding: 5px; font-size: 1.2em;">
+				<span>MÃ GIẢM GIÁ</span>
+			</h3>
+
+			<table class="table table-bordered " style="margin-bottom: 0px;">
+				<tbody>
+					<tr th:each="coupon, state  : ${coupons.content}">
+						<td th:text="${coupon.code}">Coupon Code</td>
+						<td th:text="${coupon.value}+ '%'">Coupon Value</td>
+						<td><a type="button" class="btn" th:href="${coupon.url}"
+							style="background-color: #00a5e3; color: white; border-radius: 20px; box-shadow: 3px 3px 5px 0px #666;">
+								Lấy mã</a></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</aside>
+</body>
+
+</html>

@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	th:include="user-layout/baselayout :: page(title=${course.courseName})">
+<head th:fragment="thishead">
+<style>
+p {
+	margin-bottom: 20px;
+	line-height: 1.8em;
+	margin-top: 0;
+}
+
+.tabbar-custom ul {
+	padding: 0px;
+	overflow: hidden;
+	margin-bottom: -10px;
+	background: #ededed;
+}
+
+.tabbar-custom li {
+	float: left;
+	list-style: none;
+	font-size: 16px;
+	background: #ededed;
+	border: solid 1px #ededed;
+	padding: 5px 0px;
+}
+
+.tabbar-custom a {
+	text-decoration: none;
+	color: black;
+	padding: 3px 10px;
+}
+
+.tabbar-custom li:first-child {
+	border-left: solid 5px #2f6e91 !important;
+}
+
+.tabbar-custom li:hover {
+	background: #fff;
+}
+
+.tabbar-custom .active {
+	background: #fff;
+}
+
+.tabbar-custom .normal {
+	background: #ededed;
+}
+</style>
+</head>
+<body>
+
+<div style="margin-left: -12px"  th:fragment="breadcrumb">
+	 	<nav aria-label="breadcrumb" class="mt-4">
+						<ol class="breadcrumb">
+							<li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
+							<li class="breadcrumb-item"
+								th:each="entry, state : ${breadcrumb}"><a
+								th:href="@{{link}(link=${entry.link} == 'khoa-hoc' ? '/freetuts-frontend/khoa-hoc' : ${entry.link})}"
+								th:text="${entry.label}"
+								th:if="${state.count} != ${breadcrumb.size()}"></a> <span
+								th:if="${state.count} == ${breadcrumb.size()}"
+								th:text="${entry.label}"></span></li>
+						</ol>
+					</nav>
+					<div class="tabbar-custom">
+						<ul>
+							<li
+								th:class="${tab.slug == currentCategory} ? 'active' : 'normal'"
+								th:each="tab : ${categories}"><a
+								th:href="@{/khoa-hoc/{slug}(slug=${tab.slug})}"
+								th:text="${tab.name}"></a></li>
+						</ul>
+					</div>
+	</div>
+	
+	<main class="col-12 col-lg-8 pt-3" th:fragment="maincontent"
+		style="padding: 0; margin: 0">
+ 
+						<div class="col-12 mt-4 mb-4">
+							<div class="card" style="border-radius: 0; margin-bottom: 1rem">
+								<div class="card-body">
+									<!--Title of post-->
+									<h3 th:text="${course.courseName}"></h3>
+									<!--Title of post-->
+
+									<!--Author of post-->
+									<div class="mt-3 mb-3">
+										<span
+											style="margin-right: 10px; font-size: 12px; color: #c6c6c6; line-height: 1.4;">Đăng
+											bởi: Administrator</span> <span
+											style="font-size: 12px; color: #c6c6c6; line-height: 1.4;">
+											- Vào ngày: </span> <span
+											style="margin-right: 10px; font-size: 12px; color: #c6c6c6; line-height: 1.4;"
+											th:text="${course.updatedAt}"></span> <span
+											style="margin-right: 10px; font-size: 12px; color: #c6c6c6; line-height: 1.4;">-
+											View: 72</span>
+									</div>
+									<!--Author of post-->
+
+									<!--Content of post-->
+									<div class="mt-4 mb-4"
+										style="font-size: 17px; line-height: 1.6em">
+										<div style="float: right">
+											<img th:src="@{{link}(link=${course.post.thumbnail})}"
+												style="max-width: 250px; padding-left: 20px"
+												title="Thiết kế hiệu ứng với Javascript và illustrator" />
+										</div>
+										<p th:text="${course.post.excerpt}">Nhân dịp tết nguyên
+											đán 2021 thì Tinohost mở chương trình khuyến mãi, thay vì
+											giảm giá thì bạn sẽ được tặng từ 1 đến 3 năm khi sử dụng dịch
+											vụ hosting / VPS tại đây.</p>
+										<h4 style="margin-top: 5rem; margin-bottom: 2rem">Giới
+											thiệu</h4>
+										<div class="table-responsive">
+											<table class="table table-bordered">
+												<tbody>
+													<tr>
+														<td>Khóa học</td>
+														<td th:text="${course.courseName}"></td>
+													</tr>
+													<tr>
+														<td>Hình thức học</td>
+														<td
+															th:text="${course.type == 0 ? 'Online' : (course.type == 1 ? 'Offline' : 'Khác')}"></td>
+													</tr>
+													<tr>
+														<td>Giá gốc</td>
+														<td
+															th:text="${#strings.replace(#numbers.formatDecimal(course.price, 3, 'COMMA', 2, 'POINT'), '.00', ' VND')}"></td>
+													</tr>
+													<tr>
+														<td>Link khóa học</td>
+														<td><a th:href="${course.courseLink}"
+															th:text="${course.linkName}"></a></td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+										<div class="alert alert-primary" role="alert"
+											style="padding: 3rem">
+											<h5
+												style="font-size: 22px; font-weight: bold; color: #315062; margin-bottom: 1rem;">
+												Đăng ký ngay hôm nay để được giảm giá</h5>
+											<h6
+												style="font-size: 18px; font-weight: bold; color: #1c6f8e; margin-bottom: 1rem; line-height: 1.3em;">
+												Cơ hội mua khóa học này chỉ với <span
+													style="font-size: 18px; font-weight: bold; color: red; margin-bottom: 1rem; line-height: 1.3em;"
+													th:text="${#strings.replace(#numbers.formatDecimal(course.price - (course.price * course.discount / 100), 3, 'COMMA', 2, 'POINT'), '.00', ' VND')}">192,000đ</span>
+												khi đăng ký tại freetuts.net
+											</h6>
+											<p
+												style="margin-bottom: 2rem; line-height: 1.8em; font-size: 17px; color: black;">
+												Freetuts.net là đại lý cung cấp khóa học online và offline
+												với giá rẻ nhất, giảm lên đến <span
+													style="font-weight: bold" th:text="${course.discount}"></span><span
+													style="font-weight: bold">%</span> cho khóa học này, nhanh
+												tay đăng ký nhé bạn.
+											</p>
+											<div class="d-flex justify-content-center">
+												<button type="button" class="btn"
+													style="background-color: #3498db; color: white; border-radius: 20px;">
+													ĐĂNG KÝ NGAY</button>
+											</div>
+										</div>
+										<th:block th:if="${course.courses.size() > 0}">
+											<h4 style="margin-top: 5rem; margin-bottom: 2rem">Các
+												khóa học trong combo</h4>
+											<div class="table-responsive">
+												<table class="table table-bordered">
+													<tbody>
+														<tr th:each="element : ${course.courses}">
+															<td
+																style="text-align: center; vertical-align: middle; padding: 5px 10px; width: 4rem;">
+																<a href=""><img
+																	style="max-width: 100px; height: auto; margin: 10px 5px;"
+																	th:src="@{{link}(link=${course.post.thumbnail})}" /></a>
+															</td>
+															<td><a style="text-decoration: none">
+																	<h5
+																		style="font-size: 17px; padding-bottom: 1rem; color: black; font-weight: normal;"
+																		th:text="${element.courseName}">Thiết kế hiệu ứng
+																		với Javascript và illustrator</h5>
+															</a></td>
+														</tr>
+													</tbody>
+												</table>
+											</div>
+										</th:block>
+										<th:block th:if="${invoices.size() > 0}">
+											<h4 style="margin-top: 5rem; margin-bottom: 2rem">Học
+												viên đã mua khóa học này</h4>
+											<div class="table-responsive">
+												<table class="table table-bordered">
+													<tbody>
+														<tr th:each="element : ${invoices}">
+															<td th:text="${element.fullName}"></td>
+															<td
+																th:text="${#strings.prepend(#strings.substring(element.email,3,#strings.length(element.email)),'****')}"></td>
+														</tr>
+													</tbody>
+												</table>
+											</div>
+										</th:block>
+									</div>
+
+									<!--Content of post-->
+								</div>
+							</div>
+							<div class="card"
+								style="background-color: #34495e; margin-bottom: 2rem; border-radius: 0;">
+								<h5
+									style="color: white; margin-top: 2rem; margin-bottom: 0.5rem; text-align: center;">
+									ĐĂNG KÝ KHÓA HỌC</h5>
+								<p
+									style="color: white; margin-bottom: 2rem; text-align: center;">
+									###########################</p>
+
+								<div class="card-body">
+									<form method="POST" th:action="@{/invoices/create}"
+										th:object="${invoice}">
+										<input type="text" th:name="courseId"
+											th:value="${invoice.courseId}" style="display: none" /> <input
+											type="text" th:name="totalPrice"
+											th:value="${course.price - (course.price * course.discount / 100)}"
+											style="display: none" />
+										<div class="form-group" style="margin-bottom: 2rem">
+											<label for="name"
+												style="color: white; margin-bottom: 0.5rem; font-weight: bold;">Tên
+												của bạn <span style="color: red"> * </span>
+											</label> <input required style="border-radius: 0" type="text"
+												class="form-control" id="name"
+												placeholder="Tên của bạn (required)" th:field="*{fullName}" />
+										</div>
+										<div class="form-group" style="margin-bottom: 2rem">
+											<label for="phone"
+												style="color: white; margin-bottom: 0.5rem; font-weight: bold;">Điện
+												thoại của bạn <span style="color: red"> * </span>
+											</label> <input required style="border-radius: 0" type="number"
+												class="form-control" id="phone"
+												placeholder="Điện thoại của bạn (required)"
+												th:field="*{phone}" />
+										</div>
+										<div class="form-group" style="margin-bottom: 2rem">
+											<label for="email"
+												style="color: white; margin-bottom: 0.5rem; font-weight: bold;">Email
+												của bạn <span style="color: red"> * </span>
+											</label> <input required style="border-radius: 0" type="email"
+												class="form-control" id="email"
+												placeholder="Email của bạn (required)" th:field="*{email}" />
+										</div>
+										<div class="form-group" style="margin-bottom: 2rem">
+											<label for="linkFb"
+												style="color: white; margin-bottom: 0.5rem; font-weight: bold;">Link
+												facebook</label> <input required style="border-radius: 0"
+												type="text" class="form-control" id="linkFb"
+												placeholder="Facebook của bạn (required)"
+												th:field="*{facebook}" />
+										</div>
+										<div class="card" style="background-color: white">
+											<div class="card-body accordion" id="accordionExample">
+												<h6
+													style="color: #40454d; margin-top: 0.5rem; margin-bottom: 1rem; text-align: center; font-size: 17px; font-weight: bold;">
+													CHỌN HÌNH THỨC THANH TOÁN</h6>
+												<div class="form-check mb-3">
+													<input class="form-check-input" type="radio" name="radio"
+														id="radio-bank" th:value="1" data-bs-toggle="collapse"
+														href="#collapseOne" role="button" aria-expanded="true"
+														aria-controls="collapseOne" data-bs-target="#collapseOne"
+														th:field="*{paymentMethod}"
+														th:checked="${invoice.paymentDetail} == 1" /> <label
+														class="form-check-label" for="radio-bank"
+														style="font-weight: bold"> THANH TOÁN QUA NGÂN
+														HÀNG </label>
+												</div>
+												<div class="collapse show" id="collapseOne"
+													aria-labelledby="radio-bank"
+													data-bs-parent="#accordionExample">
+													<div class="card card-body mb-3 border-0"
+														style="background-color: #d3f4e1; padding: 2rem; font-size: 17px; line-height: 1.6em;">
+														<ul style="margin-bottom: 1rem">
+															<li><strong>VIETCOMBANK</strong> <br />Chủ tài
+																khoản: Nguyễn Văn Cường <br />Số tài khoản:
+																0251002704529 <br />Chi nhánh: Bình Tây, Q6, TP HCM</li>
+															<li><strong>SACOMBANK</strong> <br />Chủ tài khoản:
+																Nguyễn Văn Cường <br />Số tài khoản: 050053235619 <br />Chi
+																nhánh: Cưkuin Đăklăk</li>
+															<li><strong>VIB</strong> <br />Chủ tài khoản:
+																Nguyễn Văn Cường <br />Số tài khoản: 410704060192515 <br />Buôn
+																Ma Thuột - ĐăkLăk</li>
+														</ul>
+														<p style="color: red; font-size: 17px; margin: 0">
+															Số tiền: <span
+																style="color: red; font-size: 17px; font-weight: bold; margin: 0;"
+																th:text="${#strings.replace(#numbers.formatDecimal(course.price - (course.price * course.discount / 100), 3, 'COMMA', 2, 'POINT'), '.00', ' VND')}"></span>
+														</p>
+													</div>
+												</div>
+												<div class="form-check mb-3">
+													<input class="form-check-input collapsed" type="radio"
+														name="radio" id="radio-post" th:value="2"
+														data-bs-toggle="collapse" href="#collapseTwo"
+														role="button" aria-expanded="false"
+														aria-controls="collapseTwo" data-bs-target="#collapseTwo"
+														th:field="*{paymentMethod}" /> <label
+														class="form-check-label" for="radio-post"
+														style="font-weight: bold"> THANH TOÁN QUA BƯU ĐIỆN
+													</label>
+												</div>
+												<div class="collapse" id="collapseTwo"
+													aria-labelledby="radio-post"
+													data-bs-parent="#accordionExample">
+													<div class="card card-body mb-3 border-0"
+														style="background-color: #d3f4e1; padding: 2rem; font-size: 17px; line-height: 1.6em;">
+														<p>Bạn phải nhập đúng địa chỉ bên dưới vì mình sẽ gửi
+															mã kích hoạt qua đường bưu điện, thanh toán tận nhà.</p>
+														<input style="border-radius: 0" type="text"
+															class="form-control" id="paymentDetail"
+															placeholder="Địa chỉ của bạn" th:field="*{paymentDetail}" />
+														<p
+															style="color: red; font-size: 17px; margin-top: 20px; margin-bottom: 0;">
+															Số tiền: <span
+																style="color: red; font-size: 17px; font-weight: bold;"
+																th:text="${#strings.replace(#numbers.formatDecimal(course.price - (course.price * course.discount / 100) + 25000, 3, 'COMMA', 2, 'POINT'), '.00', ' VND')}"></span>
+															<span style="color: black; font-size: 17px">.
+																Trong đó 25,000đ là phí gửi bưu điện</span>
+														</p>
+													</div>
+												</div>
+												<div class="form-check mb-3">
+													<input class="form-check-input collapsed" type="radio"
+														name="radio" id="radio-paypal" th:value="3"
+														data-bs-toggle="collapse" href="#collapseThree"
+														role="button" aria-expanded="false"
+														aria-controls="collapseThree"
+														data-bs-target="#collapseThree"
+														th:field="*{paymentMethod}" /> <label
+														class="form-check-label" for="radio-paypal"
+														style="font-weight: bold"> THANH TOÁN QUA PAYPAL </label>
+												</div>
+												<div class="collapse" id="collapseThree"
+													aria-labelledby="radio-paypal"
+													data-bs-parent="#accordionExample">
+													<div class="card card-body mb-3 border-0"
+														style="background-color: #d3f4e1; padding: 2rem; font-size: 17px; line-height: 1.6em;">
+														<p style="margin: 0">Gửi $ đến địa chỉ paypal:
+															cuongwriter@gmail.com.</p>
+														<p style="color: red; font-size: 17px; margin: 0">
+															Số tiền: <span
+																style="color: red; font-size: 17px; font-weight: bold;"
+																th:text="${#numbers.formatDecimal((course.price - (course.price * course.discount / 100)) * 0.0000432202, 0, 'COMMA', 2, 'POINT')}">
+															</span> <span
+																style="color: red; font-size: 17px; font-weight: bold;">$
+															</span> giá đã bao gồm phí giao dịch paypal
+														</p>
+													</div>
+												</div>
+												<div class="form-check mb-3">
+													<input class="form-check-input" type="radio" name="radio"
+														id="radio-momo" th:value="4" data-bs-toggle="collapse"
+														href="#collapseFour" role="button" aria-expanded="false"
+														aria-controls="collapseFour"
+														data-bs-target="#collapseFour" th:field="*{paymentMethod}" />
+													<label class="form-check-label" for="radio-momo"
+														style="font-weight: bold"> THANH TOÁN QUA VÍ MOMO
+													</label>
+												</div>
+												<div class="collapse" id="collapseFour"
+													aria-labelledby="radio-momo"
+													data-bs-parent="#accordionExample">
+													<div class="card card-body mb-3 border-0"
+														style="background-color: #d3f4e1; padding: 2rem; font-size: 17px; line-height: 1.6em;">
+														<p style="margin: 0">Thanh toán qua ví với số điện
+															thoại: 0979306603.</p>
+														<p
+															style="color: red; font-size: 17px; margin-top: 0px; margin-bottom: 0;">
+															Số tiền: <span
+																style="color: red; font-size: 17px; font-weight: bold;"
+																th:text="${#strings.replace(#numbers.formatDecimal(course.price - (course.price * course.discount / 100), 3, 'COMMA', 2, 'POINT'), '.00', ' VND')}"></span>
+														</p>
+													</div>
+												</div>
+												<div>
+													<br />
+													<p style="font-size: 17px">
+														<strong>Lưu ý: </strong>Nội dung gửi tiền là <strong>[SĐT]</strong>
+														mà bạn đã nhập ở trên.
+													</p>
+												</div>
+											</div>
+										</div>
+										<div class="d-flex justify-content-center">
+											<button type="submit" class="btn"
+												style="background-color: #2ecc71; color: white; margin-bottom: 1rem; margin-top: 2rem;">
+												GỬI THÔNG TIN</button>
+										</div>
+									</form>
+								</div>
+							</div>
+							<th:block th:if="${combo}">
+								<table class="table table-bordered" style="margin-bottom: 2rem">
+									<thead
+										style="background: #315062; color: white; text-align: left;">
+										<tr>
+											<th scope="col" colspan="2">CÁC COMBO</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="combo : ${combo}">
+											<td
+												style="text-align: center; vertical-align: middle; padding: 5px 10px; width: 4rem;">
+												<a href=""><img
+													style="max-width: 100px; height: auto; margin: 10px 5px;"
+													th:src="@{{link}(link=${combo.post.thumbnail})}" /></a>
+											</td>
+											<td><a
+												th:href="@{/khoa-hoc/{slug}.html(slug=${combo.post.slug})}"
+												style="text-decoration: none">
+													<h5
+														style="font-size: 17px; padding-bottom: 1rem; color: black; font-weight: normal;"
+														th:text="${combo.courseName}">Thiết kế hiệu ứng với
+														Javascript và illustrator</h5>
+													<p style="font-size: 17px; color: black; margin-bottom: 0;">
+														Giá: <span
+															style="color: red; font-size: 15px; font-weight: bold;"
+															th:text="${#strings.replace(#numbers.formatDecimal(combo.price, 3, 'COMMA', 2, 'POINT'), '.00', ' VND')}">299.000đ</span>
+													</p>
+											</a></td>
+										</tr>
+									</tbody>
+								</table>
+							</th:block>
+							<th:block th:each="element : ${data}">
+								<table class="table table-bordered" style="margin-bottom: 2rem">
+									<thead
+										style="background: #315062; color: white; text-align: left;">
+										<tr>
+											<th scope="col" colspan="2" th:text="${element.key}"></th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="course : ${element.value}">
+											<td
+												style="text-align: center; vertical-align: middle; padding: 5px 10px; width: 4rem;">
+												<a href=""><img
+													style="max-width: 100px; height: auto; margin: 10px 5px;"
+													th:src="@{{link}(link=${course.post.thumbnail})}" /></a>
+											</td>
+											<td><a
+												th:href="@{/khoa-hoc/{slug}.html(slug=${course.post.slug})}"
+												style="text-decoration: none">
+													<h5
+														style="font-size: 17px; padding-bottom: 1rem; color: black; font-weight: normal;"
+														th:text="${course.courseName}">Thiết kế hiệu ứng với
+														Javascript và illustrator</h5>
+													<p style="font-size: 17px; color: black; margin-bottom: 0;">
+														Giá: <span
+															style="color: red; font-size: 15px; font-weight: bold;"
+															th:text="${#strings.replace(#numbers.formatDecimal(course.price, 3, 'COMMA', 2, 'POINT'), '.00', ' VND')}">299.000đ</span>
+													</p>
+											</a></td>
+										</tr>
+									</tbody>
+								</table>
+							</th:block>
+						</div>
+						 
+		 
+	</main>
+
+	<th:block th:fragment="thisscript">
+		<!-- Begin Home JS -->
+		<script type="text/javascript"
+			th:src="@{/resources/public/js/home.js}"></script>
+		<!-- Begin Home JS -->
+	</th:block>
+</body>
+</html>

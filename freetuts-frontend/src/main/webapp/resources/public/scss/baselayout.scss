@@ -1,0 +1,173 @@
+// Mau Chu
+$mauchu: #ffff;
+
+// Co Chu
+$fontchu: "Lato", sans-serif;
+$cochunho: 13px;
+$cochuvua: 14px;
+$cochumenu: 15px;
+
+//chieu cao
+$headerheight: 50px;
+
+body {
+  a {
+    text-decoration: none;
+
+
+    &:hover {
+  text-decoration: none;
+  ;
+}
+  }
+
+
+}
+header {
+  // Top Header
+  $topheader-backgoundcolor: pink;
+  $topheader-color: #f0f0f0;
+  $topheader-height: 30px;
+
+  color: #ffff;
+
+  #topbar {
+    background-color: $topheader-backgoundcolor;
+  }
+}
+
+aside {
+  h3 {
+    text-align: center;
+  }
+
+  .widget {
+    border: 1px solid black;
+  }
+}
+
+footer {
+  .one_fourth {
+    margin-bottom: 50px;
+  }
+
+  a {
+    color: #fff !important;
+  }
+
+  .widget {
+    background-color: #4a525d;
+    background: #4a525d;
+    overflow: hidden;
+    border-top: 4px solid #373c43;
+    padding: 30px 0 40px;
+    color: #fff;
+    font-size: 17px;
+
+    .widget-title {
+      color: #f8f8f8;
+      line-height: 1;
+      padding-bottom: 10px;
+      font-weight: 700;
+      margin-bottom: 26px;
+      border-bottom: 1px solid #3e454f;
+      font-size: 18px;
+    }
+
+    ul {
+      padding: 0;
+      list-style: none;
+      margin: -3px 0;
+
+      li {
+        padding: 0 0 4px;
+        margin-bottom: 5px;
+        border-bottom: 1px solid #434a56;
+      }
+    }
+  }
+
+  .copyrights-area {
+    background-color: #373c43;
+
+    .copyrights-text {
+      color: #9c9ea1;
+      margin-bottom: 0;
+      line-height: 25px;
+      padding: 18px 0px;
+    }
+  }
+
+  .tool {
+    position: fixed;
+    background-color: #ffff;
+    z-index: 999;
+    height: auto;
+    width: 50px;
+    bottom: 90px;
+    right: 30px;
+    border: solid 1px #ddd;
+
+    .tcontent {
+      .function {
+        position: absolute;
+        right: 55px;
+        width: 500px;
+        bottom: 70px;
+
+        .func-item {
+          color: black;
+          background: #fff;
+          border: solid 1px #ddd;
+          margin: 0px auto;
+          display: none;
+
+          textarea {
+            background: #f8f8f8;
+            border: 1px solid #eaeaea;
+            padding: 10px;
+            width: 100%;
+            height: 100%;
+            border-radius: 0;
+            resize: vertical;
+          }
+        }
+      }
+
+      a {
+        text-align: center;
+
+        display: block;
+        border: none;
+        padding: 10px 0px;
+        cursor: pointer;
+
+        &:nth-child(1),
+        &:nth-child(2) {
+          display: none;
+        }
+
+        &:hover,
+        &.active {
+          background-color: #ececec;
+        }
+
+        span {
+          font-size: 12px;
+          margin-bottom: 3px;
+          color: #000;
+          font-weight: bold;
+          display: block;
+          line-height: 12px;
+        }
+
+        img {
+          width: 19px;
+          height: auto;
+        }
+      }
+    }
+  }
+}
+
+@import "tablet";

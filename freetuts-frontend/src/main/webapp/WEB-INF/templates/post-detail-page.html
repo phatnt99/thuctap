@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	th:include="admin-layout/baselayout :: page(title='Demo Home')">
+<body>
+	<main th:fragment="maincontent">
+		<div class="content-wrapper">
+			<!-- Content Header (Page header) -->
+			<section class="content-header">
+				<div class="container-fluid">
+					<div class="row mb-2">
+						<div class="col-sm-6">
+							<h1>Collapsed Sidebar</h1>
+						</div>
+						<div class="col-sm-6">
+							<ol class="breadcrumb float-sm-right">
+								<li class="breadcrumb-item"><a href="#">Home</a></li>
+								<li class="breadcrumb-item"><a href="#">Layout</a></li>
+								<li class="breadcrumb-item active">Collapsed Sidebar</li>
+							</ol>
+						</div>
+					</div>
+				</div>
+				<!-- /.container-fluid -->
+			</section>
+
+			<!-- Main content -->
+			<section class="content">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-12">
+							<!-- Default box -->
+							<div class="card card-primary">
+								<div class="card-header">
+									<h3 class="card-title">Quick Example</h3>
+								</div>
+								<!-- /.card-header -->
+								<!-- form start -->
+								<form method="POST" th:object="${post}"
+									th:action="@{/admin/posts/{id}(id=${post.id})}">
+									<div class="card-body">
+										<div class="form-group">
+											<label for="excerpt">Slug</label> <input th:field="*{slug}"
+												type="text" class="form-control" id="excerpt"
+												placeholder="Enter excerpt" />
+										</div>
+										<div class="form-group">
+											<label for="title">Tiêu đề</label> <input th:field="*{title}"
+												type="text" class="form-control" id="title"
+												placeholder="Enter title" />
+										</div>
+										<div class="form-group">
+											<label for="excerpt">Excerpt</label>
+											<textarea th:field="*{excerpt}" class="form-control"
+												id="excerpt" placeholder="Enter excerpt"></textarea>
+										</div>
+										<div class="form-group">
+											<label for="exampleInputEmail1">Content</label>
+											<textarea th:field="*{content}" type="text"
+												class="form-control" id="post-editor"
+												placeholder="Enter content"></textarea>
+										</div>
+										<div class="form-group">
+											<div class="row">
+												<div class="col">
+													<label for="excerpt">Thumbnail</label>
+													<div class="input-group mb-3">
+														<input th:field="*{thumbnail}" type="text"
+															class="form-control" id="thumbnail-url" readonly /> <label
+															class="input-group-text" id="thumbnail-browser">Upload</label>
+														<button id="thumbnail-reset" class="btn btn-danger">Reset</button>
+													</div>
+												</div>
+												<div class="col">
+													<div class="col">
+														<label for="excerpt">Order</label>
+														<div class="input-group mb-3">
+															<input th:field="*{order}" type="number"
+																class="form-control" id="order" />
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="form-group">
+											<label>Select Category</label> <select class="form-control"
+												th:field="${post.categoryId}">
+												<option th:value="${null}">None</option>
+												<option th:each="item : ${categories}" th:value="${item.id}"
+													th:text="${item.name}"></option>
+											</select>
+										</div>
+									</div>
+									<!-- /.card-body -->
+
+									<div class="card-footer">
+										<button type="submit" class="btn btn-primary">Save</button>
+									</div>
+								</form>
+							</div>
+							<!-- /.card -->
+						</div>
+					</div>
+				</div>
+			</section>
+			<!-- /.content -->
+		</div>
+	</main>
+
+	<th:block th:fragment="thisscript">
+		<script type="text/javascript"
+			th:src="@{/resources/public/plugin/ckeditor/ckeditor.js}"></script>
+		<script type="text/javascript"
+			th:src="@{/resources/public/plugin/ckfinder/ckfinder.js}"></script>
+		<script>
+			var ckeditor = CKEDITOR.replace("post-editor");
+			CKFinder.setupCKEditor(ckeditor,
+					"[[@{/resources/public/plugin/ckfinder/}]]");
+		</script>
+		<script>
+			$("#thumbnail-browser").click(function(e) {
+				console.log("VOO")
+				var finder = new CKFinder();
+				finder.basePath = "[[@{/resources/public/plugin/ckfinder/}]]";
+				finder.selectActionFunction = function(fileUrl, data) {
+					console.log(fileUrl);
+					$("#thumbnail-url").val(fileUrl)
+				};
+				finder.popup(800, 600);
+			})
+
+			$("#thumbnail-reset").click(function(e) {
+				e.preventDefault();
+				$("#thumbnail-url").val(null);
+			})
+		</script>
+	</th:block>
+
+	<!-- script -->
+</body>
+</html>

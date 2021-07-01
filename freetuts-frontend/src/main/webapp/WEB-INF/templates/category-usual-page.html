@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	th:include="user-layout/baselayout :: page(title=${category.name})">
+<head th:fragment="thishead">
+<style>
+p {
+	margin-bottom: 20px;
+	line-height: 1.8em;
+	margin-top: 0;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	color: #f09217;
+}
+
+.tabbar-custom ul {
+	padding: 0px;
+	overflow: hidden;
+	margin-bottom: -10px;
+	background: #ededed;
+}
+
+.tabbar-custom li {
+	float: left;
+	list-style: none;
+	font-size: 16px;
+	background: #ededed;
+	border: solid 1px #ededed;
+	padding: 5px 0px;
+}
+
+.tabbar-custom a {
+	text-decoration: none;
+	color: black;
+	padding: 3px 10px;
+}
+
+.tabbar-custom li:first-child {
+	border-left: solid 5px #2f6e91 !important;
+}
+
+.tabbar-custom li:hover {
+	background: #fff;
+}
+
+.tabbar-custom .active {
+	background: #fff;
+}
+
+.tabbar-custom .normal {
+	background: #ededed;
+}
+</style>
+</head>
+<body>
+
+	<div style="margin-left: -12px" th:fragment="breadcrumb">
+		<nav aria-label="breadcrumb" class="mt-4">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item" th:each="entry, state : ${breadcrumb}">
+					<a th:href="@{{link}(link=${entry.link})}" th:text="${entry.label}"
+					th:if="${state.count} != ${breadcrumb.size()}"></a> <span
+					th:if="${state.count} == ${breadcrumb.size()}"
+					th:text="${entry.label}"></span>
+				</li>
+			</ol>
+		</nav>
+		<div class="tabbar-custom">
+			<ul>
+				<li th:class="${tab.slug == category.slug} ? 'active' : 'normal'"
+					th:each="tab : ${categories}"><a
+					th:href="@{{slug}(slug=${tab.slug})}" th:text="${tab.name}"></a></li>
+			</ul>
+		</div>
+	</div>
+	
+	<main class="col-12 col-lg-8 pt-3" th:fragment="maincontent"
+		style="padding: 0; margin: 0">
+
+		 
+		<div class="row">
+			<div class="col-12 mt-4 mb-4">
+				<div class="card" style="border-radius: 0">
+					<div class="card-body">
+						<!--Title of category-->
+						<h3 th:text="${category.name}"></h3>
+						<!--Title of category-->
+
+						<!--Excerpt of category-->
+						<div class="mt-4 mb-4" style="font-size: 17px; line-height: 1.6em"
+							th:text="${category.description}"></div>
+						<!--Excerpt of category-->
+					</div>
+				</div>
+				<header
+					style="background: #2f6e91; padding: 10px 15px; border-bottom: 1px solid #eaeaea; margin-top: 2rem; font-size: 17px; font-weight: bold;">
+					BÀI VIẾT </header>
+				<div class="card" style="border-radius: 0"
+					th:each="post : ${posts.content}">
+					<div class="card-body">
+						<!-- Child Post  -->
+						<h5>
+							<a th:text="${post.title}"
+								th:href="@{{slug}.html(slug=${post.slug})}"></a>
+						</h5>
+						<div class="row">
+							<div class="col-3">
+								<div>
+									<img th:src="@{{link}(link=${post.thumbnail})}" width="140px"
+										height="80px">
+								</div>
+							</div>
+							<div class="col-9">
+								<p th:text="${post.excerpt.substring(0, 100) + '...'}"></p>
+							</div>
+						</div>
+						<!-- Child Post  -->
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			
+			<nav class="col">
+				<ul class="pagination justify-content-end">
+					<li class="page-item"
+						th:classappend="${posts.first} ? disabled : null"><a
+						class="page-link" href="#" tabindex="-1">Previous</a></li>
+					<li class="page-item" th:if="${posts.first} == false"><a
+						class="page-link"
+						th:href="@{{slug}(slug=${category.slug},page=${posts.number - 1}, size=${pagination.size})}"
+						th:text="${posts.number + 1 - 1}"></a></li>
+					<li class="page-item active"><a class="page-link"
+						th:href="@{{slug}(slug=${category.slug},page=${posts.number}, size=${pagination.size})}"
+						th:text="${posts.number + 1}"></a></li>
+					<li class="page-item" th:if="${posts.last} == false"><a
+						class="page-link"
+						th:href="@{{slug}(slug=${category.slug},page=${posts.number + 1}, size=${pagination.size})}"
+						th:text="${posts.number + 1 + 1}"></a></li>
+					<li class="page-item"
+						th:classappend="${posts.last} ? disabled : null"><a
+						class="page-link" href="#">Next</a></li>
+				</ul>
+			</nav>
+		</div>
+
+	</main>
+
+	<th:block th:fragment="thisscript">
+		<!-- Begin Home JS -->
+		<script type="text/javascript"
+			th:src="@{/resources/public/js/home.js}"></script>
+		<!-- Begin Home JS -->
+	</th:block>
+</body>
+</html>

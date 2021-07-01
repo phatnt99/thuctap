@@ -1,0 +1,12 @@
+.mpw-post a{
+	color: #4a525e;
+	font-size: 17px;
+	font-weight: normal !important;
+}
+
+.mpw-post a:hover{
+	color: #f09217 !important;
+	font-size: 17px;
+	font-weight: normal !important;
+}
+

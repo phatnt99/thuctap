@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	th:include="user-layout/baselayout :: page(title='Demo Home')">
+<head th:fragment="thishead">
+<style>
+p {
+	line-height: 1.8em;
+	font-size: 17px;
+}
+
+li {
+	font-size: 17px;
+	line-height: 1.8em;
+	margin-bottom: 0.5rem;
+}
+</style>
+</head>
+<body>
+
+	<div style="margin-left: -12px" th:fragment="breadcrumb">
+		<nav aria-label="breadcrumb" class="mt-4">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"><a href="#">Trang chủ</a></li>
+				<li class="breadcrumb-item"><a href="#">Khóa học</a></li>
+				<li class="breadcrumb-item"><a href="#">Khóa học lập trình</a></li>
+				<li class="breadcrumb-item active" aria-current="page">[SỐC
+					tháng 4] KDATA - Giảm giá 30% gói Wordpress Hosting</li>
+			</ol>
+		</nav>
+
+
+
+		<!--<div class="row">
+              <ul class="nav nav-pills">
+                <li class="nav-item">
+                  <a class="nav-link active" href="#">Active</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Link</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Link</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link disabled" href="#">Disabled</a>
+                </li>
+              </ul>
+            </div>-->
+	</div>
+	
+	<main class="col-12 col-lg-8 pt-3" th:fragment="maincontent"
+		style="padding: 0; margin: 0">
+	 
+					<div class="row">
+						<div class="col-12 mt-4 mb-4">
+							<div class="card" style="border-radius: 0; margin-bottom: 1rem">
+								<div class="card-body">
+									<!--Title of post-->
+									<h3>Tự tạo combo theo ý mình</h3>
+									<!--Title of post-->
+
+									<p style="margin-bottom: 2rem; margin-top: 2rem;">Nếu bạn
+										muốn tự tạo combo theo ý mình thì hãy sử dụng chức năng này,
+										nó giúp bạn tiết kiệm tiền chỉ trong 4 bước:</p>
+									<ul style="margin-bottom: 4rem !important;">
+										<li><strong>Bước 1: </strong>Chọn khóa học, <strong>Chọn
+												càng nhiều</strong> thì <strong>chi phí càng rẻ</strong>.</li>
+										<li><strong>Bước 2: </strong>Tạo combo</li>
+										<li><strong>Bước 3: </strong>Thanh toán</li>
+										<li><strong>Bước 4: </strong>Nhận khóa học</li>
+									</ul>
+									<th:block th:each="element : ${data}">
+										<div style="margin-bottom: 3rem;">
+											<div style="margin-top: 2rem; border: solid 1px #ddd">
+												<h3
+													style="font-size: 22px; font-weight: bold; text-align: center; margin-top: -1rem; color: #315062; margin-bottom: 1rem;">
+													<span th:text="${element.key}"
+														style="background-color: white; border: solid 1px #ddd; border-radius: 10px; padding: 7px 15px; font-size: 17px;">KHÓA
+														HỌC LẬP TRÌNH</span>
+												</h3>
+												<ul>
+													<li style="list-style: none; margin-bottom: 1rem;"
+														th:each="course : ${element.value}"><input th:id="${course.id}"
+														name="checkbox-course" th:value="${course.id}"
+														type="checkbox"> <label th:for="${course.id}"
+														th:text="${course.courseName}"></label><span> (</span><a
+														th:href="@{/khoa-hoc/{slug}.html(slug=${course.post.slug})}"
+														style="color: #F09217; text-decoration: none;">Xem</a><span>)</span>
+													</li>
+												</ul>
+											</div>
+										</div>
+									</th:block>
+
+									<div class="d-flex justify-content-center">
+										<button type="button" class="btn"
+											style="background-color: #3498db; color: white; border-radius: 20px; margin-bottom: 1rem;"
+											id="create-combo" url="add-field">TẠO COMBO</button>
+									</div>
+									<div id="dynamic-field">
+										<div th:fragment="frag-field">
+											<div th:if="${selectedCourses}">
+												<h4
+													style="text-align: center; margin-top: 50px; margin-bottom: 1rem; font-size: 18px; font-weight: bold; color: #40454d;">DANH
+													SÁCH KHÓA HỌC BẠN ĐÃ CHỌN</h4>
+												<ol>
+													<li th:each="item : ${selectedCourses}"
+														style="margin-bottom: 1rem;"><a
+														style="color: #F09217; text-decoration: none;"
+                            th:value="${item.id}"
+														th:href="@{/khoa-hoc/{slug}.html(slug=${item.post.slug})}"
+														th:text="${item.courseName}"></a></li>
+												</ol>
+												<div class="d-flex justify-content-center">
+													<a type="submit" class="btn" th:href="@{/khoa-hoc/tao-combo/confirm?ids={ids}(ids=${idSelected})}"
+														style="background-color: #3498db; color: white; border-radius: 20px; margin-bottom: 1rem; margin-top: 1rem">
+														XÁC NHẬN</a>
+												</div>
+											</div>
+
+										</div>
+
+
+									</div>
+
+									<!--Content of post-->
+								</div>
+							</div>
+						</div>
+						 
+					</div>
+ 
+		
+	</main>
+
+	<th:block th:fragment="thisscript">
+		<script>
+			// process
+			$(function() {
+				$('#create-combo').click(function() {
+					console.log("vô");
+
+					let url = $(this).attr('url');
+					url = '[[@{/}]]' + 'khoa-hoc/tao-combo/' + url;
+					let selected = [];
+					let count = 0;
+					$('input[name="checkbox-course"]:checked').each(function() {
+						console.log(this.value);
+						selected.push({
+							'name' : 'courseIds[' + count + ']',
+							'value' : this.value
+						})
+						count++;
+					});
+					console.log(selected);
+          if(selected.length <= 0)
+          {
+            alert("Bạn chưa chọn khóa học nào");
+          }
+          else
+          {
+            $("#dynamic-field").load(url, selected);
+          }	
+				})
+			})
+		</script>
+	</th:block>
+</body>
+</html>

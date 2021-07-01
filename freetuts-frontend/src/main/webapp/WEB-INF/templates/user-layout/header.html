@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="thishead">
+<style></style>
+</head>
+<body>
+	<header th:fragment="header" style="background-color: #2f6e91">
+		<div class="row" style="background-color: #ededfd">
+			<div class="col-1"></div>
+			<div class="col-10">
+				<div class="row">
+					<div class="col-1"></div>
+					<div class="col-10">
+						<div class="d-flex justify-content-start">
+							<ul class="nav">
+								<li class="nav-item"><a class="nav-link active" href="#"
+									style="color: black">Hosting từ 9k/tháng</a></li>
+								<li class="nav-item"><a class="nav-link" href="#"
+									style="color: black">VPS từ 139k/tháng</a></li>
+								<li class="nav-item"><a class="nav-link" href="#"
+									style="color: black">Đăng bài</a></li>
+							</ul>
+						</div>
+					</div>
+					<div class="col-1"></div>
+				</div>
+			</div>
+			<div class="col-1>"></div>
+		</div>
+		<div class="row">
+			<div class="col-1"></div>
+			<div class="col-10">
+				<div class="row">
+					<div class="col-1"></div>
+					<div class="col-10 d-flex justify-content-between"
+						style="padding-top: 2rem; padding-bottom: 2rem">
+						<div>
+							<a href="#" title="freetuts"> <img alt=""
+								th:src="@{/resources/public/logo/logo.png}"
+								style="max-width: 160px" />
+							</a>
+						</div>
+
+						<form class="form-inline" style="margin-top: 4px">
+							<div class="input-group">
+								<input type="search" class="form-control border-0"
+									placeholder="Search" aria-label="Search"
+									aria-describedby="button-addon2" />
+								<div class="input-group-append" style="background: white">
+									<button class="btn" type="button" id="button-addon2">
+										<i class="fas fa-search"></i>
+									</button>
+								</div>
+							</div>
+						</form>
+					</div>
+					<div class="col-1"></div>
+				</div>
+			</div>
+			<div class="col-1"></div>
+		</div>
+		<!-- Start Navigation Bar -->
+		<div class="mobile-menu">
+			<i class="fa fa-bars fa-3x js-menu-icon"></i>
+		</div>
+		<nav class="navbar js-navbar">
+			<div class="col-1"></div>
+			<div class="col-10">
+				<div class="row">
+					<div class="col-1"></div>
+					<div class="col-10">
+						<ul class="menu"
+							style="margin: 0 !important; padding: 0 !important">
+							<li><a th:href="@{/}"><i
+									class="fas fa-home" style="font-size: 25px; color: white"></i></a></li>
+							<li th:each="entry : ${menu.items}"><a
+								th:if="${entry.link} == '/'" th:href="@{/}"> <i
+									class='fas fa-home' style="font-size: 25px"
+									th:if="${entry.link} == '/'"></i>
+							</a> <a th:if="${entry.link} != '/'" style="color: white"
+								th:href="@{/{link}(link=${entry.link})}"
+								th:class="${entry.child.size()} > 0 ? 'hasDropdown' : ''"
+								th:text="${entry.link} == '/' ? '' : ${entry.label}"> </a> <th:block
+									th:if="${entry.isContainer}">
+									<ul class="container">
+										<li th:each="child : ${entry.child}"><a
+											th:href="@{/{link}(link=${child.link})}"
+											th:text="${child.label}"></a>
+											<ul class="container-child">
+												<li th:each="piece : ${child.child}"><a
+													th:href="@{/{link}(link=${piece.link})}"
+													th:text="${piece.label}"></a></li>
+											</ul></li>
+									</ul>
+								</th:block> <th:block th:if="!${entry.isContainer}">
+									<ul class="sub-menu">
+										<li th:each="child : ${entry.child}"><a
+											th:href="@{/{link}(link=${child.link})}"
+											th:text="${child.label}"></a></li>
+									</ul>
+								</th:block></li>
+						</ul>
+					</div>
+					<div class="col-1"></div>
+				</div>
+			</div>
+			<div class="col-1"></div>
+		</nav>
+
+		<!-- End Navigation Bar -->
+	</header>
+	<th:block th:fragment="thisscript">
+		<script>
+			// process
+			$(document)
+					.ready(
+							function() {
+								$(".js-menu-icon").on(
+										"click",
+										function() {
+											$(this).toggleClass(
+													"fa-times fa-bars");
+											$(".menu .container").removeClass(
+													"container--is-visible");
+											$(".menu li").removeClass(
+													"is-selected");
+											$(".js-navbar").toggleClass(
+													"navbar--is-visible");
+										});
+
+								$(".menu li")
+										.on(
+												"click",
+												function(e) {
+													e.preventDefault();
+													var $this = $(this);
+													$this
+															.toggleClass("is-selected");
+
+													var $currentContainer = $(
+															this).find(
+															".container");
+													$currentContainer
+															.toggleClass("container--is-visible");
+
+													$(".menu .container")
+															.not(
+																	$currentContainer)
+															.removeClass(
+																	"container--is-visible");
+													$(".menu li")
+															.not($this)
+															.removeClass(
+																	"is-selected");
+
+													var $currentContainer = $(
+															this).find(
+															".sub-menu");
+													$currentContainer
+															.toggleClass("container--is-visible");
+
+													$(".menu .sub-menu")
+															.not(
+																	$currentContainer)
+															.removeClass(
+																	"container--is-visible");
+													$(".menu li")
+															.not($this)
+															.removeClass(
+																	"is-selected");
+												});
+							});
+		</script>
+	</th:block>
+</body>
+</html>

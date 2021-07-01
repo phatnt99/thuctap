@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	th:include="user-layout/baselayout :: page(title=${post.title})">
+<head th:fragment="thishead">
+<style>
+p {
+	margin-bottom: 20px;
+	line-height: 1.8em;
+	margin-top: 0;
+}
+
+a {
+	text-decoration: none;
+	color: #f09217;
+}
+
+main img {
+	width: 100%
+}
+</style>
+</head>
+<body>
+
+	<div style="margin-left: -12px" th:fragment="breadcrumb">
+ <nav aria-label="breadcrumb" class="mt-4">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item" th:each="entry, state : ${breadcrumb}">
+					<a th:href="@{{link}(link=${entry.link})}" th:text="${entry.label}" th:if="${state.count} != ${breadcrumb.size()}"></a>
+					<span th:if="${state.count} == ${breadcrumb.size()}" th:text="${entry.label}"></span>
+					</li>
+				</ol>
+			</nav>
+	</div>
+
+
+	<main class="col-12 col-lg-8 pt-3" th:fragment="maincontent"
+		style="padding: 0; margin: 0">
+		
+	 
+			
+			<div class="row">
+				<div class="col-12 mt-4 mb-4">
+					<div class="card" style="border-radius: 0">
+						<div class="card-body">
+							<!--Title of post-->
+							<h3 th:text="${post.title}">
+							</h3>
+							<!--Title of post-->
+
+							<!--Author of post-->
+							<div class="mt-3 mb-3">
+								<span
+									style="margin-right: 10px; font-size: 12px; color: #c6c6c6; line-height: 1.4;">Đăng
+									bởi: Administrator</span> <span
+									style="margin-right: 10px; font-size: 12px; color: #c6c6c6; line-height: 1.4;">-
+									Vào ngày: <span th:text="${post.createdAt}"></span></span> <span
+									style="margin-right: 10px; font-size: 12px; color: #c6c6c6; line-height: 1.4;">-
+									View: 71</span>
+							</div>
+							<!--Author of post-->
+
+							<!--Author of post-->
+							
+							<!--Content of post-->
+							<div class="mt-4 mb-4"
+								style="font-size: 17px; line-height: 1.6em" th:text="${post.excerpt}">
+							</div>
+							<!--Content of post-->
+
+							<!--Content of post-->
+							<div class="mt-4 mb-4"
+								style="font-size: 17px; line-height: 1.6em" th:utext="${post.content}">
+							</div>
+							<!--Content of post-->
+							
+						</div>
+					</div>
+				</div>
+			
+			</div>
+	 
+	</main>
+
+	<th:block th:fragment="thisscript">
+		<!-- Begin Home JS -->
+		<script type="text/javascript"
+			th:src="@{/resources/public/js/home.js}"></script>
+		<!-- Begin Home JS -->
+	</th:block>
+</body>
+</html>

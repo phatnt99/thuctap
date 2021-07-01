@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	th:include="admin-layout/baselayout :: page(title='Login')">
+
+<body>
+
+	<main th:fragment="maincontent">
+		<div class="content-wrapper d-flex align-items-center">
+
+
+			<!-- Main content -->
+			<section class="content flex-grow-1">
+				<div class="d-flex justify-content-center">
+					<!-- Default box -->
+
+
+					<!-- /.login-logo -->
+					<div class="card">
+						<div class="card-body login-card-body">
+							<div class="login-box">
+								<div class="login-logo">
+									<b>Login</b>
+
+									<form th:action="@{/admin/login}" th:object="${user}"
+										method="post">
+										<div class="input-group mb-3">
+											<input type="text" th:field="*{username}"
+												class="form-control" placeholder="Username">
+											<div class="input-group-append">
+												<div class="input-group-text">
+													<span class="fas fa-envelope"></span>
+												</div>
+											</div>
+										</div>
+										<div class="input-group mb-3">
+											<input type="password" th:field="*{password}"
+												class="form-control" placeholder="Password">
+											<div class="input-group-append">
+												<div class="input-group-text">
+													<span class="fas fa-lock"></span>
+												</div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-12">
+												<button type="submit" class="btn btn-primary btn-block">Sign
+													In</button>
+											</div>
+
+										</div>
+									</form>
+
+
+									<!-- /.social-auth-links -->
+
+
+								</div>
+								<!-- /.login-card-body -->
+							</div>
+						</div>
+
+						<!-- /.card -->
+					</div>
+			</section>
+			<!-- /.content -->
+		</div>
+
+	</main>
+	<th:block th:fragment="thisscript">
+
+	</th:block>
+
+</body>
+
+</html>

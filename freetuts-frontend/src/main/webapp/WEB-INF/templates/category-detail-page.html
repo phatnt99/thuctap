@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	th:include="admin-layout/baselayout :: page(title='Demo Home')">
+<body>
+	<main th:fragment="maincontent">
+		<div class="content-wrapper">
+			<!-- Content Header (Page header) -->
+			<section class="content-header">
+				<div class="container-fluid">
+					<div class="row mb-2">
+						<div class="col-sm-6">
+							<h1>Collapsed Sidebar</h1>
+						</div>
+						<div class="col-sm-6">
+							<ol class="breadcrumb float-sm-right">
+								<li class="breadcrumb-item"><a href="#">Home</a></li>
+								<li class="breadcrumb-item"><a href="#">Layout</a></li>
+								<li class="breadcrumb-item active">Collapsed Sidebar</li>
+							</ol>
+						</div>
+					</div>
+				</div>
+				<!-- /.container-fluid -->
+			</section>
+
+			<!-- Main content -->
+			<section class="content">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-12">
+							<!-- Default box -->
+							<div class="card card-primary">
+								<div class="card-header">
+									<h3 class="card-title">Quick Example</h3>
+								</div>
+								<!-- /.card-header -->
+								<!-- form start -->
+								<form method="POST" th:object="${category}"
+									th:action="@{/admin/categories/{id}(id=${category.id})}">
+									<div class="card-body">
+										<div class="form-group">
+											<label for="title">Name</label> <input th:field="*{name}"
+												type="text" class="form-control" id="name"
+												placeholder="Enter name" />
+										</div>
+										<div class="form-group">
+											<label for="excerpt">Description</label>
+											<textarea th:field="*{description}" class="form-control"
+												id="excerpt" placeholder="Enter description">
+                        </textarea>
+										</div>
+										<div class="form-group">
+											<label>Select Parent</label> <select class="form-control"
+												th:field="*{parentId}">
+												<option th:value="${null}">None</option>
+												<option th:each="item : ${parent}" th:value="${item.id}"
+													th:text="${item.name}"></option>
+											</select>
+										</div>
+										<div class="form-group">
+											<div class="row">
+												<div class="col">
+													<label></label>
+													<div class="form-check form-switch">
+														<input th:field="*{isMenu}" value=true
+															class="form-check-input" type="checkbox" id="isMenu">
+														<label class="form-check-label" for="isMenu">add
+															to menu</label>
+													</div>
+												</div>
+												<div class="col">
+													<div class="col">
+														<label for="excerpt">Order</label>
+														<div class="input-group mb-3">
+															<input th:field="*{order}" type="number"
+																class="form-control" id="order" />
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<!-- /.card-body -->
+
+									<div class="card-footer">
+										<button type="submit" class="btn btn-primary">Save</button>
+									</div>
+								</form>
+							</div>
+							<!-- /.card -->
+						</div>
+					</div>
+				</div>
+			</section>
+			<!-- /.content -->
+		</div>
+	</main>
+
+	<th:block th:fragment="thisscript">
+	</th:block>
+
+	<!-- script -->
+</body>
+</html>

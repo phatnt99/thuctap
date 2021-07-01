@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	th:include="admin-layout/baselayout :: page(title='Demo Home')">
+<body>
+	<main th:fragment="maincontent">
+		<div class="content-wrapper">
+			<!-- Content Header (Page header) -->
+			<section class="content-header">
+				<div class="container-fluid">
+					<div class="row mb-2">
+						<div class="col-sm-6">
+							<h1>Collapsed Sidebar</h1>
+						</div>
+						<div class="col-sm-6">
+							<ol class="breadcrumb float-sm-right">
+								<li class="breadcrumb-item"><a href="#">Home</a></li>
+								<li class="breadcrumb-item"><a href="#">Layout</a></li>
+								<li class="breadcrumb-item active">Collapsed Sidebar</li>
+							</ol>
+						</div>
+					</div>
+				</div>
+				<!-- /.container-fluid -->
+			</section>
+
+			<!-- Main content -->
+			<section class="content">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-12">
+							<!-- Default box -->
+							<div class="card card-primary">
+								<div class="card-header">
+									<h3 class="card-title">Quick Example</h3>
+								</div>
+								<!-- /.card-header -->
+								<!-- form start -->
+								<form method="POST" th:action="@{/admin/tutorials/create}"
+									th:object="${tutorial}">
+									<div class="card-body">
+										<div class="form-group">
+											<label for="title">Name</label> <input th:field="*{name}"
+												type="text" class="form-control" id="name"
+												placeholder="Enter name" />
+										</div>
+										<div class="form-group">
+											<label for="excerpt">Description</label>
+											<textarea th:field="*{description}" class="form-control"
+												id="post-editor" placeholder="Enter description">
+                        					</textarea>
+										</div>
+										<div class="form-group">
+											<div class="row">
+												<div class="col">
+													<label for="excerpt">Thumbnail</label>
+													<div class="input-group mb-3">
+														<input th:field="*{thumbnail}" type="text"
+															class="form-control" id="thumbnail-url" readonly /> <label
+															class="input-group-text" id="thumbnail-browser">Upload</label>
+														<button id="thumbnail-reset" class="btn btn-danger">Reset</button>
+													</div>
+												</div>
+												<div class="col"></div>
+											</div>
+										</div>
+										<div class="form-group">
+											<label>Select Parent</label> <select class="form-control"
+												th:field="*{parentId}">
+												<option th:value="${null}">None</option>
+												<option th:each="item : ${parent}" th:value="${item.id}"
+													th:text="${item.name}"></option>
+											</select>
+										</div>
+										<div id="dynamic-field" class="dynamic-update-rows">
+											<div th:fragment="frag-field">
+												<input th:field="${tutorial.countField}" type="hidden" />
+												<div class="form-group">
+													<label>List Field</label>
+													<div class="row"
+														th:each="count : ${#numbers.sequence( 0, __#{tutorial.countField}__, 1)}">
+														<div class="col">
+															<input th:field="${tutorial.fields[__${count}__]}"
+																type="text" class="form-control"
+																placeholder="Enter Field Name..." />
+														</div>
+
+														<button type="button" class="btn btn-danger"
+															dynamic-update-rows-url="remove-field"
+															th:value="${count}">Remove</button>
+
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="dynamic-update-rows">
+											<button type="button" class="btn btn-primary"
+												dynamic-update-rows-url="add-field">Add new</button>
+										</div>
+									</div>
+									<!-- /.card-body -->
+
+									<div class="card-footer">
+										<button type="submit" class="btn btn-primary">Save</button>
+									</div>
+								</form>
+							</div>
+							<!-- /.card -->
+						</div>
+					</div>
+				</div>
+			</section>
+			<!-- /.content -->
+		</div>
+	</main>
+
+	<th:block th:fragment="thisscript">
+		<script type="text/javascript"
+			th:src="@{/resources/public/plugin/ckeditor/ckeditor.js}"></script>
+		<script type="text/javascript"
+			th:src="@{/resources/public/plugin/ckfinder/ckfinder.js}"></script>
+		<script>
+			var ckeditor = CKEDITOR.replace("post-editor");
+			CKFinder.setupCKEditor(ckeditor,
+					"[[@{/resources/public/plugin/ckfinder/}]]");
+		</script>
+		<script>
+			// process
+			$(function() {
+				$('.dynamic-update-rows').on('click', 'button', function() {
+					let url = $(this).attr('dynamic-update-rows-url');
+					url = '[[@{/}]]' + 'admin/tutorials/' + url;
+					let formData = $('form').serializeArray();
+					// for remove
+					let param = {};
+					param["name"] = 'removeIdx';
+					param["value"] = $(this).val();
+					console.log(formData);
+					formData.push(param);
+					formData.push({
+						'name' : 'template',
+						'value' : 'detail'
+					});
+					console.log(url)
+
+					$("#dynamic-field").load(url, formData);
+				})
+				$("#thumbnail-browser")
+						.click(
+								function(e) {
+									console.log("VOO")
+									var finder = new CKFinder();
+									finder.basePath = "[[@{/resources/public/plugin/ckfinder/}]]";
+									finder.selectActionFunction = function(
+											fileUrl, data) {
+										console.log(fileUrl);
+										$("#thumbnail-url").val(fileUrl)
+									};
+									finder.popup(800, 600);
+								})
+
+				$("#thumbnail-reset").click(function(e) {
+					e.preventDefault();
+					$("#thumbnail-url").val(null);
+				})
+			})
+		</script>
+	</th:block>
+
+	<!-- script -->
+</body>
+</html>
